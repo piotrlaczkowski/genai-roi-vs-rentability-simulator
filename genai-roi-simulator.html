@@ -92,6 +92,238 @@
             .btn-primary:hover {
                 background-color: #0056b3;
             }
+            /* Enhanced Styling */
+            .section-header {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                padding: 2rem;
+                border-radius: 15px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                margin-bottom: 2rem;
+            }
+
+            .custom-accordion .accordion-item {
+                border-radius: 10px;
+                overflow: hidden;
+                margin-bottom: 1rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            }
+
+            .custom-accordion .accordion-button {
+                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+                font-weight: 600;
+                padding: 1.25rem;
+            }
+
+            .step-guide .step {
+                display: flex;
+                margin-bottom: 2rem;
+                padding: 1rem;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                transition: transform 0.2s;
+            }
+
+            .step-guide .step:hover {
+                transform: translateY(-2px);
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                background: #007bff;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                margin-right: 1rem;
+            }
+
+            .example-box {
+                background: #f8f9fa;
+                border-left: 4px solid #007bff;
+                padding: 1rem;
+                margin-top: 1rem;
+                border-radius: 0 10px 10px 0;
+            }
+
+            /* Slider Enhancement */
+            .form-range {
+                height: 8px;
+                border-radius: 4px;
+            }
+
+            .form-range::-webkit-slider-runnable-track {
+                background: linear-gradient(to right, #007bff 0%, #007bff var(--range-progress), #dee2e6 var(--range-progress), #dee2e6 100%);
+                height: 8px;
+                border-radius: 4px;
+            }
+
+            /* Animation Classes */
+            .fade-in {
+                animation: fadeIn 0.5s ease-in;
+            }
+
+            .slide-in {
+                animation: slideIn 0.5s ease-out;
+            }
+
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes slideIn {
+                from { transform: translateX(-20px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            .custom-range-container {
+                position: relative;
+                padding: 1rem 0;
+            }
+
+            .custom-range {
+                -webkit-appearance: none;
+                width: 100%;
+                height: 8px;
+                border-radius: 4px;
+                background: #e9ecef;
+                outline: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .custom-range::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: #007bff;
+                cursor: pointer;
+                transition: background .15s ease-in-out;
+                box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+            }
+
+            .custom-range::-webkit-slider-thumb:hover {
+                background: #0056b3;
+            }
+
+            .range-value {
+                position: absolute;
+                top: -25px;
+                padding: 2px 8px;
+                background: #007bff;
+                color: white;
+                border-radius: 4px;
+                font-size: 0.875rem;
+                transform: translateX(-50%);
+            }
+
+            .range-value::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-top: 5px solid #007bff;
+            }
+
+            .framework-component {
+                background: #fff;
+                border-radius: 10px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                margin-bottom: 1.5rem;
+            }
+
+            .formula-box {
+                background: #f8f9fa;
+                border-radius: 10px;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .formula {
+                font-family: "Courier New", monospace;
+                font-size: 1.2rem;
+                padding: 1rem;
+                background: #fff;
+                border-radius: 5px;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+
+            .calculation-section {
+                margin-bottom: 2rem;
+            }
+
+            .example-box {
+                border-left: 4px solid #007bff;
+                padding: 1rem;
+                margin-top: 1rem;
+                background: #fff;
+                border-radius: 0 10px 10px 0;
+            }
+
+            .recommendation-item {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 1.5rem;
+                padding: 1rem;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+
+            .recommendation-icon {
+                font-size: 2rem;
+                margin-right: 1rem;
+            }
+
+            .recommendation-text {
+                flex: 1;
+            }
+
+            .tip-card {
+                background: #fff;
+                border-radius: 10px;
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                border-left: 4px solid #007bff;
+            }
+
+            .formula-explanation {
+                background: #fff;
+                padding: 1rem;
+                border-radius: 8px;
+                margin: 1rem 0;
+            }
+
+            .component-details {
+                background: #fff;
+                padding: 1.5rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+            }
+
+            .step-content h5 {
+                color: #007bff;
+                margin-bottom: 1rem;
+            }
+
+            .framework-section {
+                background: #fff;
+                padding: 2rem;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
         </style>
     </head>
     <body>
@@ -232,16 +464,18 @@
                                             >1</span
                                         ></label
                                     >
-                                    <input
-                                        type="range"
-                                        class="form-range"
-                                        min="0"
-                                        max="10"
-                                        step="0.1"
-                                        id="timeSaved"
-                                        value="1"
-                                        onchange="updateSlider('timeSaved'); calculateROI();"
-                                    />
+                                    <div class="custom-range-container">
+                                        <input type="range"
+                                            class="custom-range"
+                                            min="0"
+                                            max="10"
+                                            step="0.1"
+                                            id="timeSaved"
+                                            value="1"
+                                            onchange="updateSlider('timeSaved'); calculateROI();"
+                                            oninput="updateSliderProgress(this)"
+                                        />
+                                    </div>
                                 </div>
                                 <!-- Monetary Value of Time Saved -->
                                 <div class="mb-3">
@@ -689,6 +923,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Add this after the Summary accordion section and before the Charts -->
+                        <div class="card recommendations-card mb-4">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <i class="bi bi-lightbulb"></i> Smart Recommendations
+                                </h4>
+                                <div class="recommendations-content">
+                                    <div class="recommendation-item fade-in">
+                                        <div class="recommendation-icon">💰</div>
+                                        <div class="recommendation-text">
+                                            <h5>Cost Optimization</h5>
+                                            <p>Based on your inputs, we recommend:</p>
+                                            <ul id="costRecommendations"></ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="recommendation-item fade-in">
+                                        <div class="recommendation-icon">👥</div>
+                                        <div class="recommendation-text">
+                                            <h5>User Scaling</h5>
+                                            <p>To optimize ROI:</p>
+                                            <ul id="scalingRecommendations"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -696,98 +958,199 @@
             <!-- Documentation Tab -->
             <div class="tab-pane fade" id="documentation" role="tabpanel">
                 <div class="container mt-4">
-                    <h2 class="mb-4"><i class="bi bi-book"></i> Documentation</h2>
-
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h3>Overview</h3>
-                            <p>This calculator helps estimate the Return on Investment (ROI) for GenAI projects by considering various factors including build costs, operational parameters, and usage metrics.</p>
-                        </div>
+                    <div class="section-header mb-4">
+                        <h2><i class="bi bi-book"></i> GenAI ROI Calculator Guide</h2>
+                        <p class="text-muted">Complete guide to understanding and optimizing your GenAI investment</p>
                     </div>
 
-                    <div class="accordion" id="documentationAccordion">
-                        <!-- Input Parameters Section -->
+                    <div class="accordion custom-accordion" id="documentationAccordion">
+                        <!-- Quick Start Guide -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#inputParams">
-                                    Input Parameters
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#quickStart">
+                                    <i class="bi bi-rocket-takeoff me-2"></i> Quick Start Guide
                                 </button>
                             </h2>
-                            <div id="inputParams" class="accordion-collapse collapse show" data-bs-parent="#documentationAccordion">
+                            <div id="quickStart" class="accordion-collapse collapse show">
                                 <div class="accordion-body">
-                                    <h5>Build Costs</h5>
-                                    <ul>
-                                        <li><strong>Total Build Cost:</strong> One-time cost to build the solution</li>
-                                        <li><strong>Build Duration and Daily Cost:</strong> Alternative way to calculate build cost</li>
-                                    </ul>
+                                    <div class="step-guide">
+                                        <div class="step">
+                                            <div class="step-number">1</div>
+                                            <div class="step-content">
+                                                <h5>Project Setup 🚀</h5>
+                                                <p>Begin by defining your project parameters:</p>
+                                                <ul>
+                                                    <li>Build costs (development and implementation)</li>
+                                                    <li>Project duration</li>
+                                                    <li>Team size and composition</li>
+                                                </ul>
+                                                <div class="example-box">
+                                                    <p><strong>Example:</strong> A 3-month project with 2 developers at €500/day = €60,000 build cost</p>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <h5>Operational Parameters</h5>
-                                    <ul>
-                                        <li><strong>Time Saved:</strong> Hours saved per user per week</li>
-                                        <li><strong>Monetary Value:</strong> Value of each hour saved</li>
-                                        <li><strong>Queries per Day:</strong> Average number of AI queries per user per day</li>
-                                        <li><strong>Number of Users:</strong> Total users of the system</li>
-                                        <li><strong>Time Period:</strong> Number of months for ROI calculation</li>
-                                    </ul>
+                                        <div class="step">
+                                            <div class="step-number">2</div>
+                                            <div class="step-content">
+                                                <h5>Usage Parameters 📊</h5>
+                                                <p>Define how your GenAI solution will be used:</p>
+                                                <ul>
+                                                    <li>Number of users</li>
+                                                    <li>Queries per user per day</li>
+                                                    <li>Time saved per interaction</li>
+                                                </ul>
+                                                <div class="example-box">
+                                                    <p><strong>Example:</strong> 50 users making 10 queries/day, saving 15 minutes per query</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="step">
+                                            <div class="step-number">3</div>
+                                            <div class="step-content">
+                                                <h5>Cost Structure 💰</h5>
+                                                <p>Define operational costs:</p>
+                                                <ul>
+                                                    <li>API costs per query</li>
+                                                    <li>Infrastructure costs</li>
+                                                    <li>Maintenance costs</li>
+                                                </ul>
+                                                <div class="example-box">
+                                                    <p><strong>Example:</strong> €0.02/query + €500/month fixed costs</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Calculations Section -->
+                        <!-- Framework Deep Dive -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#framework">
+                                    <i class="bi bi-diagram-3 me-2"></i> Framework Deep Dive
+                                </button>
+                            </h2>
+                            <div id="framework" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <div class="framework-section">
+                                        <h5>ROI Framework Components</h5>
+
+                                        <div class="framework-component">
+                                            <h6>1. Cost Structure Analysis 📊</h6>
+                                            <div class="component-details">
+                                                <p><strong>Fixed Costs (FC):</strong></p>
+                                                <ul>
+                                                    <li>Initial development costs</li>
+                                                    <li>Infrastructure setup</li>
+                                                    <li>Training and onboarding</li>
+                                                </ul>
+                                                <p><strong>Variable Costs (VC):</strong></p>
+                                                <ul>
+                                                    <li>Per-query API costs</li>
+                                                    <li>Compute resources</li>
+                                                    <li>Storage costs</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="framework-component">
+                                            <h6>2. Benefit Calculation 📈</h6>
+                                            <div class="component-details">
+                                                <p><strong>Direct Benefits:</strong></p>
+                                                <ul>
+                                                    <li>Time savings per interaction</li>
+                                                    <li>Error reduction</li>
+                                                    <li>Process automation</li>
+                                                </ul>
+                                                <p><strong>Indirect Benefits:</strong></p>
+                                                <ul>
+                                                    <li>Improved decision making</li>
+                                                    <li>Employee satisfaction</li>
+                                                    <li>Innovation enablement</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calculation Details -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#calculations">
-                                    Calculations
+                                    <i class="bi bi-calculator me-2"></i> Calculation Details
                                 </button>
                             </h2>
-                            <div id="calculations" class="accordion-collapse collapse" data-bs-parent="#documentationAccordion">
+                            <div id="calculations" class="accordion-collapse collapse">
                                 <div class="accordion-body">
-                                    <h5>Key Formulas</h5>
-                                    <div class="formula">
-                                        <p>Monthly Benefit per User (B_u):</p>
-                                        <p class="text-muted">B_u = Time Saved × Value per Hour × Weeks per Month</p>
-                                    </div>
+                                    <div class="calculation-section">
+                                        <h5>Core Calculations</h5>
 
-                                    <div class="formula">
-                                        <p>Monthly Cost per User (C_u):</p>
-                                        <p class="text-muted">C_u = (Queries per Day × Working Days × Cost per Query) + (Fixed Cost ÷ Number of Users)</p>
-                                    </div>
+                                        <div class="formula-box">
+                                            <h6>1. Monthly Benefit per User</h6>
+                                            <div class="formula">B_u = T_s × R × W_m</div>
+                                            <div class="formula-explanation">
+                                                <ul>
+                                                    <li>B_u: Monthly benefit per user</li>
+                                                    <li>T_s: Time saved per week</li>
+                                                    <li>R: Hourly rate</li>
+                                                    <li>W_m: Weeks per month</li>
+                                                </ul>
+                                            </div>
+                                            <div class="example-box">
+                                                <p><strong>Example:</strong> 2 hours/week × €50/hour × 4 weeks = €400/month per user</p>
+                                            </div>
+                                        </div>
 
-                                    <div class="formula">
-                                        <p>Net ROI:</p>
-                                        <p class="text-muted">Net ROI = (Total Monthly ROI × Number of Months) - Build Cost</p>
-                                    </div>
-
-                                    <div class="formula">
-                                        <p>Break-even Point:</p>
-                                        <p class="text-muted">Break-even Months = Build Cost ÷ Monthly Profit</p>
+                                        <div class="formula-box">
+                                            <h6>2. Total Monthly Cost</h6>
+                                            <div class="formula">C_m = FC_m + (VC_q × Q_t)</div>
+                                            <div class="formula-explanation">
+                                                <ul>
+                                                    <li>C_m: Total monthly cost</li>
+                                                    <li>FC_m: Fixed monthly costs</li>
+                                                    <li>VC_q: Variable cost per query</li>
+                                                    <li>Q_t: Total monthly queries</li>
+                                                </ul>
+                                            </div>
+                                            <div class="example-box">
+                                                <p><strong>Example:</strong> €500 + (€0.02 × 10,000 queries) = €700/month</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Interpretation Section -->
+                        <!-- Best Practices -->
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#interpretation">
-                                    Interpretation
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bestPractices">
+                                    <i class="bi bi-check-circle me-2"></i> Best Practices & Tips
                                 </button>
                             </h2>
-                            <div id="interpretation" class="accordion-collapse collapse" data-bs-parent="#documentationAccordion">
+                            <div id="bestPractices" class="accordion-collapse collapse">
                                 <div class="accordion-body">
-                                    <h5>Understanding Results</h5>
-                                    <ul>
-                                        <li><strong>Positive Net ROI:</strong> The project is profitable over the selected time period</li>
-                                        <li><strong>Break-even Point:</strong> Number of months needed to recover the initial investment</li>
-                                        <li><strong>Minimum Users:</strong> Minimum number of users needed for profitability</li>
-                                    </ul>
+                                    <div class="tips-section">
+                                        <div class="tip-card">
+                                            <h6><i class="bi bi-lightning me-2"></i>Accurate Time Estimation</h6>
+                                            <p>Start with a pilot group to measure actual time savings before full deployment.</p>
+                                        </div>
 
-                                    <h5>Chart Interpretation</h5>
-                                    <ul>
-                                        <li><strong>Net ROI Line:</strong> Cumulative return over time</li>
-                                        <li><strong>Total Costs Line:</strong> Accumulated costs including build and operational costs</li>
-                                        <li><strong>Total Benefits Line:</strong> Accumulated benefits from time savings</li>
-                                    </ul>
+                                        <div class="tip-card">
+                                            <h6><i class="bi bi-graph-up me-2"></i>Scale Gradually</h6>
+                                            <p>Begin with a core user group and expand based on measured benefits.</p>
+                                        </div>
+
+                                        <div class="tip-card">
+                                            <h6><i class="bi bi-gear me-2"></i>Monitor Usage Patterns</h6>
+                                            <p>Regularly track query patterns to optimize costs and improve efficiency.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -959,6 +1322,9 @@
                     // Update chart
                     updateChart(numMonths, Total_ROI, Solution_Cost, N_u, ROI_u, C_build);
 
+                    // Update recommendations
+                    updateRecommendations(ROI_u, N_u_min, BreakEven_Months);
+
                 } catch (error) {
                     console.error("Error updating DOM:", error);
                 }
@@ -1071,6 +1437,53 @@
                     gradient.addColorStop(1, "rgba(0, 0, 255, 0)");
                 }
                 return gradient;
+            }
+
+            function updateRecommendations(ROI_u, N_u_min, BreakEven_Months) {
+                const costRecs = document.getElementById('costRecommendations');
+                const scalingRecs = document.getElementById('scalingRecommendations');
+
+                costRecs.innerHTML = '';
+                scalingRecs.innerHTML = '';
+
+                // Cost optimization recommendations
+                if (ROI_u < 0) {
+                    costRecs.innerHTML += `
+                        <li class="text-danger">Current ROI per user is negative (${formatCurrency(ROI_u)})</li>
+                        <li>Consider increasing time savings or reducing operational costs</li>
+                    `;
+                } else {
+                    costRecs.innerHTML += `
+                        <li class="text-success">Positive ROI per user (${formatCurrency(ROI_u)})</li>
+                        <li>Current setup is profitable</li>
+                    `;
+                }
+
+                // Scaling recommendations
+                if (N_u_min > 0) {
+                    scalingRecs.innerHTML += `
+                        <li>Minimum users needed: <strong>${N_u_min}</strong></li>
+                        <li>Break-even in: <strong>${BreakEven_Months.toFixed(1)} months</strong></li>
+                    `;
+                }
+
+                // Add animation
+                document.querySelectorAll('.recommendation-item').forEach(item => {
+                    item.classList.add('slide-in');
+                    setTimeout(() => item.classList.remove('slide-in'), 500);
+                });
+            }
+
+            function updateSliderProgress(slider) {
+                const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+                slider.style.background = `linear-gradient(to right, #007bff ${value}%, #dee2e6 ${value}%)`;
+
+                // Update value display
+                const valueDisplay = document.getElementById(slider.id + "Value");
+                if (valueDisplay) {
+                    valueDisplay.textContent = slider.value;
+                    valueDisplay.style.left = `${value}%`;
+                }
             }
 
             // Ensure the DOM is fully loaded before running calculations
