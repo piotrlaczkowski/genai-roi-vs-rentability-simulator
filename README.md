@@ -13,7 +13,7 @@ A sleek, interactive calculator to help you measure and optimize the Return on I
 
 ## 🎮 Demo
 
-Try it live: [GenAI ROI Calculator](your-demo-link-here)
+Try it live: [GenAI ROI Calculator](https://piotrlaczkowski/genai-roi-vs-rentability-simulator/genai-roi-calculator)
 
 ## 🔧 Key Components
 
