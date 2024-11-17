@@ -563,6 +563,67 @@
             .recommendations-section .card:hover {
                 transform: translateY(-2px);
             }
+
+            .parameter-section {
+                background: #f8f9fa;
+                border-radius: 8px;
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .section-header {
+                color: #2c3e50;
+                border-bottom: 2px solid #e9ecef;
+                padding-bottom: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .input-group-container {
+                background: white;
+                border-radius: 6px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+
+            .form-label {
+                font-weight: 500;
+                color: #495057;
+            }
+
+            .input-group {
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+
+            .input-group-text {
+                background-color: #f8f9fa;
+                border-color: #dee2e6;
+            }
+
+            .form-control:focus {
+                border-color: #80bdff;
+                box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+            }
+
+            .custom-range-container {
+                background: white;
+                padding: 1rem;
+                border-radius: 6px;
+                margin-bottom: 1rem;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+
+            .slider-label {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.5rem;
+            }
+
+            .slider-value {
+                font-weight: 600;
+                color: #007bff;
+            }
         </style>
     </head>
     <body>
@@ -609,256 +670,270 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <h3>
-                                    <i class="bi bi-sliders"></i> Input
-                                    Parameters
+                                    <i class="bi bi-sliders"></i> Input Parameters
                                 </h3>
 
                                 <!-- Build Cost Section -->
-                                <h5 class="mt-3">
-                                    <i class="bi bi-tools"></i> Build Costs
-                                </h5>
-                                <div
-                                    class="form-check form-switch toggle-button"
-                                >
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        id="buildCostToggle"
-                                        onchange="toggleBuildCostInputs(); calculateROI();"
-                                    />
-                                    <label
-                                        class="form-check-label"
-                                        for="buildCostToggle"
-                                        >Use Build Duration and Daily
-                                        Cost</label
-                                    >
-                                </div>
+                                <div class="parameter-section mb-4">
+                                    <h5 class="section-header">
+                                        <i class="bi bi-tools"></i> Build Costs
+                                        <span class="badge bg-primary ms-2" data-bs-toggle="tooltip" title="One-time costs for development and implementation">
+                                            <i class="bi bi-info-circle"></i>
+                                        </span>
+                                    </h5>
 
-                                <!-- Total Build Cost -->
-                                <div id="totalBuildCostDiv">
-                                    <label
-                                        for="totalBuildCost"
-                                        class="form-label"
-                                        >Total Build Cost (€):</label
-                                    >
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">€</span>
+                                    <div class="form-check form-switch toggle-button mb-3">
                                         <input
-                                            type="number"
-                                            class="form-control"
-                                            id="totalBuildCost"
-                                            value="10000"
-                                            min="0"
-                                            step="100"
-                                            onchange="calculateROI();"
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            id="buildCostToggle"
+                                            onchange="toggleBuildCostInputs(); calculateROI();"
                                         />
+                                        <label class="form-check-label" for="buildCostToggle">
+                                            Calculate from duration and daily cost
+                                        </label>
+                                    </div>
+
+                                    <!-- Total Build Cost -->
+                                    <div id="totalBuildCostDiv" class="input-group-container">
+                                        <label for="totalBuildCost" class="form-label d-flex justify-content-between">
+                                            Total Build Cost
+                                            <span class="text-muted small">One-time cost</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                id="totalBuildCost"
+                                                value="10000"
+                                                min="0"
+                                                step="100"
+                                                onchange="calculateROI();"
+                                            />
+                                            <span class="input-group-text">EUR</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Build Duration and Daily Cost -->
+                                    <div id="buildDurationDiv" style="display: none">
+                                        <div class="mb-3">
+                                            <label for="buildDays" class="form-label d-flex justify-content-between">
+                                                Build Duration
+                                                <span class="text-muted small">Working days</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    id="buildDays"
+                                                    value="20"
+                                                    min="0"
+                                                    step="1"
+                                                    onchange="calculateROI();"
+                                                />
+                                                <span class="input-group-text">days</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="costPerDay" class="form-label d-flex justify-content-between">
+                                                Daily Cost
+                                                <span class="text-muted small">Per working day</span>
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
+                                                <input
+                                                    type="number"
+                                                    class="form-control"
+                                                    id="costPerDay"
+                                                    value="500"
+                                                    min="0"
+                                                    step="10"
+                                                    onchange="calculateROI();"
+                                                />
+                                                <span class="input-group-text">EUR/day</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Build Duration and Daily Cost -->
-                                <div
-                                    id="buildDurationDiv"
-                                    style="display: none"
-                                >
-                                    <label for="buildDays" class="form-label"
-                                        >Number of Build Days:</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control mb-3"
-                                        id="buildDays"
-                                        value="20"
-                                        min="0"
-                                        step="1"
-                                        onchange="calculateROI();"
-                                    />
-                                    <label for="costPerDay" class="form-label"
-                                        >Cost per Day (€):</label
-                                    >
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="costPerDay"
-                                            value="500"
-                                            min="0"
-                                            step="10"
-                                            onchange="calculateROI();"
-                                        />
-                                    </div>
-                                </div>
+                                <!-- Operational Parameters -->
+                                <div class="parameter-section mb-4">
+                                    <h5 class="section-header">
+                                        <i class="bi bi-gear"></i> Operational Parameters
+                                        <span class="badge bg-primary ms-2" data-bs-toggle="tooltip" title="Ongoing usage and efficiency metrics">
+                                            <i class="bi bi-info-circle"></i>
+                                        </span>
+                                    </h5>
 
-                                <!-- Time Saved per User per Week -->
-                                <h5 class="mt-4">
-                                    <i class="bi bi-clock"></i> Operational
-                                    Parameters
-                                </h5>
-                                <div class="mb-3">
-                                    <label
-                                        for="timeSaved"
-                                        class="form-label slider-label"
-                                        >Time Saved per User per Week (hours):
-                                        <span id="timeSavedValue"
-                                            >1</span
-                                        ></label
-                                    >
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="0"
-                                            max="10"
-                                            step="0.1"
-                                            id="timeSaved"
-                                            value="1"
-                                            onchange="updateSlider('timeSaved'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
-                                    </div>
-                                </div>
-                                <!-- Monetary Value of Time Saved -->
-                                <div class="mb-3">
-                                    <label for="valuePerHour" class="form-label"
-                                        >Monetary Value of Time Saved:</label
-                                    >
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="valuePerHour"
-                                            value="100"
-                                            min="0"
-                                            step="1"
-                                            onchange="calculateROI();"
-                                        />
-                                        <span class="input-group-text"
-                                            >per hour</span
+                                    <!-- Time Saved per User per Week -->
+                                    <div class="mb-3">
+                                        <label
+                                            for="timeSaved"
+                                            class="form-label slider-label"
+                                            >Time Saved per User per Week (hours):
+                                            <span id="timeSavedValue"
+                                                >1</span
+                                            ></label
                                         >
+                                        <div class="custom-range-container">
+                                            <input type="range"
+                                                class="custom-range"
+                                                min="0"
+                                                max="10"
+                                                step="0.1"
+                                                id="timeSaved"
+                                                value="1"
+                                                onchange="updateSlider('timeSaved'); calculateROI();"
+                                                oninput="updateSliderProgress(this)"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Queries per User per Day -->
-                                <div class="mb-3">
-                                    <label for="queriesPerDay" class="form-label slider-label">
-                                        Queries per User per Day: <span id="queriesPerDayValue">10</span>
-                                    </label>
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="0"
-                                            max="50"
-                                            step="1"
-                                            id="queriesPerDay"
-                                            value="10"
-                                            onchange="updateSlider('queriesPerDay'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
+                                    <!-- Monetary Value of Time Saved -->
+                                    <div class="mb-3">
+                                        <label for="valuePerHour" class="form-label"
+                                            >Monetary Value of Time Saved:</label
+                                        >
+                                        <div class="input-group">
+                                            <span class="input-group-text">€</span>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                id="valuePerHour"
+                                                value="100"
+                                                min="0"
+                                                step="1"
+                                                onchange="calculateROI();"
+                                            />
+                                            <span class="input-group-text"
+                                                >per hour</span
+                                            >
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Number of Users -->
-                                <div class="mb-3">
-                                    <label for="numberOfUsers" class="form-label slider-label">
-                                        Number of Users: <span id="numberOfUsersValue">50</span>
-                                    </label>
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="1"
-                                            max="500"
-                                            step="1"
-                                            id="numberOfUsers"
-                                            value="50"
-                                            onchange="updateSlider('numberOfUsers'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
+                                    <!-- Queries per User per Day -->
+                                    <div class="mb-3">
+                                        <label for="queriesPerDay" class="form-label slider-label">
+                                            Queries per User per Day: <span id="queriesPerDayValue">10</span>
+                                        </label>
+                                        <div class="custom-range-container">
+                                            <input type="range"
+                                                class="custom-range"
+                                                min="0"
+                                                max="50"
+                                                step="1"
+                                                id="queriesPerDay"
+                                                value="10"
+                                                onchange="updateSlider('queriesPerDay'); calculateROI();"
+                                                oninput="updateSliderProgress(this)"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Number of Months -->
-                                <div class="mb-3">
-                                    <label for="numberOfMonths" class="form-label slider-label">
-                                        Number of Months: <span id="numberOfMonthsValue">12</span>
-                                    </label>
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="1"
-                                            max="36"
-                                            step="1"
-                                            id="numberOfMonths"
-                                            value="12"
-                                            onchange="updateSlider('numberOfMonths'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
+                                    <!-- Number of Users -->
+                                    <div class="mb-3">
+                                        <label for="numberOfUsers" class="form-label slider-label">
+                                            Number of Users: <span id="numberOfUsersValue">50</span>
+                                        </label>
+                                        <div class="custom-range-container">
+                                            <input type="range"
+                                                class="custom-range"
+                                                min="1"
+                                                max="500"
+                                                step="1"
+                                                id="numberOfUsers"
+                                                value="50"
+                                                onchange="updateSlider('numberOfUsers'); calculateROI();"
+                                                oninput="updateSliderProgress(this)"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <!-- Working Days per Month -->
-                                <div class="mb-3">
-                                    <label for="workingDays" class="form-label"
-                                        >Working Days per Month:</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="workingDays"
-                                        value="22"
-                                        min="1"
-                                        max="31"
-                                        step="1"
-                                        onchange="calculateROI();"
-                                    />
-                                </div>
-                                <!-- Weeks per Month -->
-                                <div class="mb-3">
-                                    <label
-                                        for="weeksPerMonth"
-                                        class="form-label"
-                                        >Weeks per Month:</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="weeksPerMonth"
-                                        value="4.3"
-                                        min="1"
-                                        max="5"
-                                        step="0.1"
-                                        onchange="calculateROI();"
-                                    />
-                                </div>
-                                <!-- Cost per Query -->
-                                <div class="mb-3">
-                                    <label for="costPerQuery" class="form-label"
-                                        >Cost per Query (€):</label
-                                    >
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
+                                    <!-- Number of Months -->
+                                    <div class="mb-3">
+                                        <label for="numberOfMonths" class="form-label slider-label">
+                                            Number of Months: <span id="numberOfMonthsValue">12</span>
+                                        </label>
+                                        <div class="custom-range-container">
+                                            <input type="range"
+                                                class="custom-range"
+                                                min="1"
+                                                max="36"
+                                                step="1"
+                                                id="numberOfMonths"
+                                                value="12"
+                                                onchange="updateSlider('numberOfMonths'); calculateROI();"
+                                                oninput="updateSliderProgress(this)"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!-- Working Days per Month -->
+                                    <div class="mb-3">
+                                        <label for="workingDays" class="form-label"
+                                            >Working Days per Month:</label
+                                        >
                                         <input
                                             type="number"
                                             class="form-control"
-                                            id="costPerQuery"
-                                            value="0.00315"
-                                            min="0"
-                                            step="0.0001"
+                                            id="workingDays"
+                                            value="22"
+                                            min="1"
+                                            max="31"
+                                            step="1"
                                             onchange="calculateROI();"
                                         />
                                     </div>
-                                </div>
-                                <!-- Fixed Cost per Month -->
-                                <div class="mb-3">
-                                    <label for="fixedCost" class="form-label"
-                                        >Fixed Cost per Month (€):</label
-                                    >
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
+                                    <!-- Weeks per Month -->
+                                    <div class="mb-3">
+                                        <label
+                                            for="weeksPerMonth"
+                                            class="form-label"
+                                            >Weeks per Month:</label
+                                        >
                                         <input
                                             type="number"
                                             class="form-control"
-                                            id="fixedCost"
-                                            value="3000"
-                                            min="0"
-                                            step="100"
+                                            id="weeksPerMonth"
+                                            value="4.3"
+                                            min="1"
+                                            max="5"
+                                            step="0.1"
                                             onchange="calculateROI();"
                                         />
+                                    </div>
+                                    <!-- Cost per Query -->
+                                    <div class="mb-3">
+                                        <label for="costPerQuery" class="form-label"
+                                            >Cost per Query (€):</label
+                                        >
+                                        <div class="input-group">
+                                            <span class="input-group-text">€</span>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                id="costPerQuery"
+                                                value="0.00315"
+                                                min="0"
+                                                step="0.0001"
+                                                onchange="calculateROI();"
+                                            />
+                                        </div>
+                                    </div>
+                                    <!-- Fixed Cost per Month -->
+                                    <div class="mb-3">
+                                        <label for="fixedCost" class="form-label"
+                                            >Fixed Cost per Month (€):</label
+                                        >
+                                        <div class="input-group">
+                                            <span class="input-group-text">€</span>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                id="fixedCost"
+                                                value="3000"
+                                                min="0"
+                                                step="100"
+                                                onchange="calculateROI();"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
