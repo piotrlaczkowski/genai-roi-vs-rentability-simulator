@@ -328,10 +328,14 @@
             }
 
             /* Add these styles to your existing CSS */
-            .metric-card {
-                background-color: #ffffff;
-                border: 1px solid rgba(0,0,0,0.1);
+            .metric-category {
+                background: #fff;
+                border-radius: 10px;
+                padding: 1.5rem;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            }
+
+            .metric-card {
                 transition: transform 0.2s;
             }
 
@@ -341,43 +345,29 @@
             }
 
             .metric-value {
+                font-size: 1.5rem;
+                font-weight: 600;
                 color: #2c3e50;
-            }
-
-            .badge {
-                font-size: 0.9rem;
-                padding: 0.5em 0.8em;
-            }
-
-            .badge.bg-secondary {
-                background-color: #6c757d !important;
-                color: #ffffff !important;
-            }
-
-            .badge.bg-primary {
-                background-color: #007bff !important;
-                color: #ffffff !important;
-            }
-
-            .text-muted {
-                color: #6c757d !important;
             }
 
             .progress {
                 background-color: #e9ecef;
-                height: 8px;
-                border-radius: 4px;
-                margin: 0.5rem 0;
             }
 
             .progress-bar {
-                background-color: #007bff;
-                transition: width 0.3s ease;
+                transition: width 0.6s ease;
             }
 
-            /* Improved text contrast */
-            .h3, .h4, .h5, .h6 {
-                color: #2c3e50;
+            .bi {
+                font-size: 1.1rem;
+            }
+
+            [data-bs-toggle="tooltip"] {
+                cursor: help;
+            }
+
+            .text-muted {
+                font-size: 0.875rem;
             }
 
             .metric-card .text-primary {
@@ -1709,96 +1699,284 @@
                         valuePerHour: parseFloat(document.getElementById("valuePerHour").value) || 0,
                         queriesPerDay: parseFloat(document.getElementById("queriesPerDay").value) || 0,
                         workingDays: parseFloat(document.getElementById("workingDays").value) || 0,
+                        weeksPerMonth: parseFloat(document.getElementById("weeksPerMonth").value) || 4.3,
                         costPerQuery: parseFloat(document.getElementById("costPerQuery").value) || 0,
-                        fixedCost: parseFloat(document.getElementById("fixedCost").value) || 0
+                        fixedCost: parseFloat(document.getElementById("fixedCost").value) || 0,
+                        numberOfMonths: parseFloat(document.getElementById("numberOfMonths").value) || 12,
+                        buildCost: document.getElementById("buildCostToggle").checked ?
+                            parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
+                            parseFloat(document.getElementById("totalBuildCost").value)
                     };
 
-                    // Helper function for safe element updates
-                    const updateElement = (id, value, prefix = '', suffix = '') => {
-                        const element = document.getElementById(id);
-                        if (element) {
-                            element.textContent = `${prefix}${value}${suffix}`;
-                        }
-                    };
-
-                    // Calculate metrics
-                    const monthlyValuePerUser = inputs.timeSaved * inputs.valuePerHour * inputs.workingDays;
+                    // Calculate core metrics
+                    const monthlyValuePerUser = (inputs.timeSaved * inputs.valuePerHour * inputs.weeksPerMonth);
                     const monthlyQueriesPerUser = inputs.queriesPerDay * inputs.workingDays;
                     const monthlyVariableCost = monthlyQueriesPerUser * inputs.costPerQuery;
                     const monthlyFixedCostPerUser = inputs.fixedCost / inputs.numberOfUsers;
                     const totalMonthlyCostPerUser = monthlyVariableCost + monthlyFixedCostPerUser;
                     const monthlyROIPerUser = monthlyValuePerUser - totalMonthlyCostPerUser;
-                    const totalMonthlyROI = monthlyROIPerUser * inputs.numberOfUsers - inputs.fixedCost;
+                    const totalMonthlyROI = (monthlyROIPerUser * inputs.numberOfUsers) - inputs.fixedCost;
 
-                    // Update Summary section
-                    updateElement("totalROISummary", totalMonthlyROI.toFixed(2), '€');
-                    updateElement("monthlyValueGenerated", totalMonthlyROI.toFixed(2), '€');
-                    updateElement("roiPerUserSummary", monthlyROIPerUser.toFixed(2), '€');
-                    updateElement("costPerUserSummary", totalMonthlyCostPerUser.toFixed(2), '€');
-                    updateElement("solutionCostPerMonth", (inputs.fixedCost + (monthlyVariableCost * inputs.numberOfUsers)).toFixed(2), '€');
-
-                    // Update Quick Stats
-                    updateElement("totalTimeSaved", (inputs.timeSaved * inputs.numberOfUsers * inputs.workingDays).toFixed(0), '', ' hours/month');
-                    updateElement("activeUserCount", inputs.numberOfUsers);
-                    updateElement("monthlyQueryCount", (monthlyQueriesPerUser * inputs.numberOfUsers).toFixed(0));
-                    updateElement("costEfficiency", ((monthlyROIPerUser / totalMonthlyCostPerUser) * 100).toFixed(0), '', '%');
-
-                    // Calculate and update break-even metrics
-                    const buildCost = document.getElementById("buildCostToggle").checked ?
-                        parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
-                        parseFloat(document.getElementById("totalBuildCost").value);
-
-                    const breakEvenMonths = Math.ceil(buildCost / totalMonthlyROI);
-                    updateElement("breakEvenPoint", breakEvenMonths);
-                    updateElement("totalBuildCostDisplay", buildCost.toFixed(2), '€');
+                    // Calculate break-even point
+                    const breakEvenMonths = Math.ceil(inputs.buildCost / totalMonthlyROI);
 
                     // Calculate minimum requirements
                     const minUsersNeeded = Math.ceil(inputs.fixedCost / (monthlyValuePerUser - monthlyVariableCost));
-                    updateElement("numberOfUsersMinSummary", minUsersNeeded);
-                    updateElement("benefitPerUserMinSummary", (totalMonthlyCostPerUser * 1.2).toFixed(2), '€');
+                    const minBenefitPerUser = totalMonthlyCostPerUser * 1.2; // 20% margin
 
-                    // Update progress bars
-                    const updateProgressBar = (id, value, max) => {
-                        const progressBar = document.getElementById(id);
-                        if (progressBar) {
-                            const percentage = Math.min((value / max) * 100, 100);
-                            progressBar.style.width = `${percentage}%`;
-                        }
-                    };
+                    // Update UI elements
+                    updateSummarySection({
+                        totalMonthlyROI,
+                        monthlyROIPerUser,
+                        totalMonthlyCostPerUser,
+                        monthlyValuePerUser,
+                        inputs,
+                        breakEvenMonths,
+                        minUsersNeeded,
+                        minBenefitPerUser
+                    });
 
-                    updateProgressBar("roiProgressBar", totalMonthlyROI, totalMonthlyROI * 1.5);
-                    updateProgressBar("valueProgressBar", monthlyValuePerUser, monthlyValuePerUser * 1.5);
-                    updateProgressBar("breakEvenProgressBar", inputs.numberOfUsers, inputs.numberOfUsers * 1.5);
+                    // Update chart
+                    const monthlyTotalCost = (monthlyVariableCost * inputs.numberOfUsers) + inputs.fixedCost;
+                    const monthlyTotalBenefit = monthlyValuePerUser * inputs.numberOfUsers;
+                    updateChart(
+                        inputs.numberOfMonths,
+                        totalMonthlyROI,
+                        monthlyTotalCost,
+                        inputs.numberOfUsers,
+                        monthlyROIPerUser,
+                        inputs.buildCost
+                    );
+
+                    // Update recommendations
+                    updateRecommendations(monthlyROIPerUser, minUsersNeeded, breakEvenMonths);
 
                 } catch (error) {
                     console.error("Error in calculateROI:", error);
                 }
             }
 
-            function updateChart(numMonths, Total_ROI, Solution_Cost, N_u, ROI_u, C_build) {
+            function updateSummarySection(data) {
+                // Helper function for safe element updates
+                const updateElement = (id, value, prefix = '', suffix = '') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        if (typeof value === 'number') {
+                            element.textContent = `${prefix}${value.toFixed(2)}${suffix}`;
+                        } else {
+                            element.textContent = `${prefix}${value}${suffix}`;
+                        }
+                    }
+                };
+
+                // Update all summary elements
+                updateElement("totalROISummary", data.totalMonthlyROI, '€');
+                updateElement("monthlyValueGenerated", data.totalMonthlyROI, '€');
+                updateElement("roiPerUserSummary", data.monthlyROIPerUser, '€');
+                updateElement("costPerUserSummary", data.totalMonthlyCostPerUser, '€');
+                updateElement("totalTimeSaved", data.inputs.timeSaved * data.inputs.numberOfUsers * data.inputs.workingDays, '', ' hours/month');
+                updateElement("activeUserCount", data.inputs.numberOfUsers);
+                updateElement("monthlyQueryCount", data.inputs.queriesPerDay * data.inputs.workingDays * data.inputs.numberOfUsers);
+                updateElement("costEfficiency", (data.monthlyROIPerUser / data.totalMonthlyCostPerUser) * 100, '', '%');
+                updateElement("breakEvenPoint", data.breakEvenMonths);
+                updateElement("numberOfUsersMinSummary", data.minUsersNeeded);
+                updateElement("benefitPerUserMinSummary", data.minBenefitPerUser, '€');
+
+                // Update progress bars
+                updateProgressBar("roiProgressBar", data.totalMonthlyROI, data.totalMonthlyROI * 1.5);
+                updateProgressBar("valueProgressBar", data.monthlyValuePerUser, data.monthlyValuePerUser * 1.5);
+                updateProgressBar("breakEvenProgressBar", data.inputs.numberOfUsers, data.minUsersNeeded * 1.5);
+            }
+
+            function updateDetailedResults(data) {
                 try {
-                    const canvas = document.getElementById("roiChart");
-                    if (!canvas) {
-                        console.error("Chart canvas element not found");
-                        return;
+                    // Create metrics data structure
+                    const metrics = [
+                        {
+                            category: "Value Generation",
+                            items: [
+                                {
+                                    label: "Monthly Value per User",
+                                    value: data.monthlyValuePerUser,
+                                    id: "benefitPerUser",
+                                    icon: "bi-graph-up-arrow",
+                                    tooltip: "Total value generated per user each month"
+                                },
+                                {
+                                    label: "Queries per Month",
+                                    value: Math.round(data.inputs.queriesPerDay * data.inputs.workingDays),
+                                    id: "queriesPerMonth",
+                                    icon: "bi-chat-dots",
+                                    tooltip: "Total number of queries per user per month",
+                                    isCount: true
+                                }
+                            ]
+                        },
+                        {
+                            category: "Cost Analysis",
+                            items: [
+                                {
+                                    label: "Variable Cost per User",
+                                    value: data.monthlyVariableCost,
+                                    id: "variableCostPerUser",
+                                    icon: "bi-currency-euro",
+                                    tooltip: "Monthly variable costs per user"
+                                },
+                                {
+                                    label: "Fixed Cost per User",
+                                    value: data.monthlyFixedCostPerUser,
+                                    id: "fixedCostPerUser",
+                                    icon: "bi-cash-stack",
+                                    tooltip: "Monthly fixed costs distributed per user"
+                                },
+                                {
+                                    label: "Total Cost per User",
+                                    value: data.totalMonthlyCostPerUser,
+                                    id: "totalCostPerUser",
+                                    icon: "bi-cash-coin",
+                                    tooltip: "Total monthly cost per user"
+                                }
+                            ]
+                        },
+                        {
+                            category: "ROI Metrics",
+                            items: [
+                                {
+                                    label: "ROI per User",
+                                    value: data.monthlyROIPerUser,
+                                    id: "roiPerUser",
+                                    icon: "bi-person-check",
+                                    tooltip: "Monthly return on investment per user"
+                                },
+                                {
+                                    label: "Total Monthly ROI",
+                                    value: data.totalMonthlyROI,
+                                    id: "totalROI",
+                                    icon: "bi-graph-up",
+                                    tooltip: "Total monthly return on investment"
+                                },
+                                {
+                                    label: "Build Cost",
+                                    value: data.inputs.buildCost,
+                                    id: "totalBuildCostDetailed",
+                                    icon: "bi-tools",
+                                    tooltip: "Total initial build cost"
+                                }
+                            ]
+                        },
+                        {
+                            category: "Break-Even Analysis",
+                            items: [
+                                {
+                                    label: "Net ROI",
+                                    value: (data.totalMonthlyROI * data.inputs.numberOfMonths) - data.inputs.buildCost,
+                                    id: "netROI",
+                                    icon: "bi-calculator",
+                                    tooltip: `Net ROI over ${data.inputs.numberOfMonths} months`
+                                },
+                                {
+                                    label: "Break-Even Point",
+                                    value: data.breakEvenMonths,
+                                    id: "breakEvenPointDetailed",
+                                    icon: "bi-calendar-check",
+                                    tooltip: "Months until break-even",
+                                    suffix: " months"
+                                },
+                                {
+                                    label: "Minimum Benefit Required",
+                                    value: data.minBenefitPerUser,
+                                    id: "benefitPerUserMin",
+                                    icon: "bi-arrow-up-circle",
+                                    tooltip: "Minimum monthly benefit needed per user"
+                                }
+                            ]
+                        }
+                    ];
+
+                    // Get the detailed results container
+                    const container = document.getElementById('collapseDetailedResults').querySelector('.accordion-body');
+                    container.innerHTML = ''; // Clear existing content
+
+                    // Create the new detailed results UI
+                    metrics.forEach(category => {
+                        const categorySection = document.createElement('div');
+                        categorySection.className = 'metric-category mb-4';
+
+                        categorySection.innerHTML = `
+                            <h5 class="text-primary mb-3">
+                                <i class="bi bi-diagram-3"></i> ${category.category}
+                            </h5>
+                            <div class="row g-3">
+                                ${category.items.map(item => `
+                                    <div class="col-md-${category.items.length > 2 ? '4' : '6'}">
+                                        <div class="metric-card h-100 p-3 border rounded bg-white">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <i class="bi ${item.icon} text-primary me-2"></i>
+                                                <span class="text-muted small">${item.label}</span>
+                                                <i class="bi bi-info-circle ms-2"
+                                                   data-bs-toggle="tooltip"
+                                                   title="${item.tooltip}"></i>
+                                            </div>
+                                            <div class="metric-value" id="${item.id}">
+                                                ${item.isCount ?
+                                                    item.value :
+                                                    formatCurrency(item.value)}
+                                                ${item.suffix || ''}
+                                            </div>
+                                            <div class="progress mt-2" style="height: 4px;">
+                                                <div class="progress-bar" style="width: ${
+                                                    Math.min((item.value / (item.value * 1.5)) * 100, 100)}%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+
+                        container.appendChild(categorySection);
+                    });
+
+                    // Initialize tooltips
+                    const tooltips = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                    tooltips.map(tooltip => new bootstrap.Tooltip(tooltip));
+
+                } catch (error) {
+                    console.error("Error updating detailed results:", error);
+                }
+            }
+
+            function updateChart(numMonths, monthlyROI, monthlyCost, numUsers, roiPerUser, buildCost) {
+                try {
+                    const ctx = document.getElementById("roiChart").getContext("2d");
+
+                    // Generate data points
+                    const labels = Array.from({length: numMonths}, (_, i) => `Month ${i + 1}`);
+                    const cumulativeROI = [];
+                    const cumulativeCosts = [];
+                    const cumulativeBenefits = [];
+
+                    let totalROI = -buildCost;
+                    let totalCost = buildCost;
+                    let totalBenefit = 0;
+
+                    for (let i = 0; i < numMonths; i++) {
+                        totalROI += monthlyROI;
+                        totalCost += monthlyCost;
+                        totalBenefit += (monthlyROI + monthlyCost);
+
+                        cumulativeROI.push(totalROI);
+                        cumulativeCosts.push(totalCost);
+                        cumulativeBenefits.push(totalBenefit);
                     }
 
                     // Destroy existing chart if it exists
-                    if (roiChart) {
-                        roiChart.destroy();
+                    if (window.roiChart instanceof Chart) {
+                        window.roiChart.destroy();
                     }
 
-                    // Generate data points for the chart
-                    const labels = Array.from({length: numMonths}, (_, i) => `Month ${i + 1}`);
-                    const cumulativeROI = Array.from({length: numMonths}, (_, i) =>
-                        (Total_ROI * (i + 1)) - C_build);
-                    const cumulativeCosts = Array.from({length: numMonths}, (_, i) =>
-                        Solution_Cost * (i + 1) + C_build);
-                    const cumulativeBenefits = Array.from({length: numMonths}, (_, i) =>
-                        (Total_ROI + Solution_Cost) * (i + 1));
-
                     // Create new chart
-                    roiChart = new Chart(canvas, {
+                    window.roiChart = new Chart(ctx, {
                         type: 'line',
                         data: {
                             labels: labels,
@@ -1945,7 +2123,9 @@
                     "buildDays",
                     "costPerDay",
                     "totalBuildCost",
-                    "buildCostToggle"
+                    "buildCostToggle",
+                    "weeksPerMonth",
+                    "numberOfMonths"
                 ];
 
                 inputIds.forEach(id => {
@@ -2017,7 +2197,9 @@
                             fixedCost: parseFloat(document.getElementById("fixedCost").value),
                             buildCost: document.getElementById("buildCostToggle").checked ?
                                 parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
-                                parseFloat(document.getElementById("totalBuildCost").value)
+                                parseFloat(document.getElementById("totalBuildCost").value),
+                            weeksPerMonth: parseFloat(document.getElementById("weeksPerMonth").value) || 4.3,
+                            numberOfMonths: parseFloat(document.getElementById("numberOfMonths").value) || 12
                         };
 
                         // Calculate key metrics
@@ -2193,6 +2375,27 @@
                         </div>
                     `;
                 }
-            </script>
-        </body>
-    </html>
+
+            // Add this function to fix the error
+            function updateProgressBar(id, value, maxValue) {
+                const progressBar = document.getElementById(id);
+                if (progressBar) {
+                    const percentage = Math.min((value / maxValue) * 100, 100);
+                    progressBar.style.width = `${percentage}%`;
+                    progressBar.setAttribute('aria-valuenow', percentage);
+
+                    // Update color based on percentage
+                    if (percentage >= 75) {
+                        progressBar.className = 'progress-bar bg-success';
+                    } else if (percentage >= 50) {
+                        progressBar.className = 'progress-bar bg-info';
+                    } else if (percentage >= 25) {
+                        progressBar.className = 'progress-bar bg-warning';
+                    } else {
+                        progressBar.className = 'progress-bar bg-danger';
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
