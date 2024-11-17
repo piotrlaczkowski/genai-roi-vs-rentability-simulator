@@ -1,1431 +1,191 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>GenAI Project ROI Calculator</title>
-        <!-- Bootstrap CSS -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <!-- Chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <!-- MathJax for TeX Formulas -->
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-        <!-- Bootstrap Icons -->
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-        />
-        <style>
-            @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
-
-            body {
-                margin: 20px;
-                background-color: #f8f9fa;
-            }
-            .slider-label {
-                font-weight: bold;
-            }
-            .result-section p {
-                font-size: 1.1em;
-            }
-            .nav-tabs .nav-link.active {
-                background-color: #e9ecef;
-            }
-            .text-green {
-                color: green;
-            }
-            .text-red {
-                color: red;
-            }
-            .formula {
-                background-color: #f1f1f1;
-                padding: 10px;
-                border-radius: 5px;
-                margin-bottom: 10px;
-            }
-            .chart-container {
-                position: relative;
-                height: 400px;
-            }
-            .mb-4 {
-                margin-bottom: 1.5rem;
-            }
-            .card {
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-            .accordion-button {
-                font-weight: bold;
-                font-size: 1.1em;
-            }
-            .accordion-button:not(.collapsed) {
-                color: #fff;
-                background-color: #007bff;
-            }
-            .accordion-button::after {
-                filter: invert(1);
-            }
-            .accordion-header {
-                background-color: #007bff;
-            }
-            .accordion-item {
-                border: none;
-                margin-bottom: 10px;
-            }
-            .input-group-text {
-                background-color: #e9ecef;
-            }
-            .form-check-input:checked {
-                background-color: #007bff;
-                border-color: #007bff;
-            }
-            .form-check-label {
-                margin-left: 10px;
-            }
-            h3,
-            h5 {
-                color: #007bff;
-            }
-            .btn-primary {
-                background-color: #007bff;
-                border: none;
-            }
-            .btn-primary:hover {
-                background-color: #0056b3;
-            }
-            /* Enhanced Styling */
-            .section-header {
-                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-                padding: 2rem;
-                border-radius: 15px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                margin-bottom: 2rem;
-            }
-
-            .custom-accordion .accordion-item {
-                border-radius: 10px;
-                overflow: hidden;
-                margin-bottom: 1rem;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            }
-
-            .custom-accordion .accordion-button {
-                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-                font-weight: 600;
-                padding: 1.25rem;
-            }
-
-            .step-guide .step {
-                display: flex;
-                margin-bottom: 2rem;
-                padding: 1rem;
-                background: #fff;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-                transition: transform 0.2s;
-            }
-
-            .step-guide .step:hover {
-                transform: translateY(-2px);
-            }
-
-            .step-number {
-                width: 40px;
-                height: 40px;
-                background: #007bff;
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                margin-right: 1rem;
-            }
-
-            .example-box {
-                background: #f8f9fa;
-                border-left: 4px solid #007bff;
-                padding: 1rem;
-                margin-top: 1rem;
-                border-radius: 0 10px 10px 0;
-            }
-
-            /* Slider Enhancement */
-            .form-range {
-                height: 8px;
-                border-radius: 4px;
-            }
-
-            .form-range::-webkit-slider-runnable-track {
-                background: linear-gradient(to right, #007bff 0%, #007bff var(--range-progress), #dee2e6 var(--range-progress), #dee2e6 100%);
-                height: 8px;
-                border-radius: 4px;
-            }
-
-            /* Animation Classes */
-            .fade-in {
-                animation: fadeIn 0.5s ease-in;
-            }
-
-            .slide-in {
-                animation: slideIn 0.5s ease-out;
-            }
-
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-
-            @keyframes slideIn {
-                from { transform: translateX(-20px); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-
-            .custom-range-container {
-                position: relative;
-                padding: 1rem 0;
-            }
-
-            .custom-range {
-                -webkit-appearance: none;
-                width: 100%;
-                height: 8px;
-                border-radius: 4px;
-                background: #e9ecef;
-                outline: none;
-                padding: 0;
-                margin: 0;
-            }
-
-            .custom-range::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background: #007bff;
-                cursor: pointer;
-                transition: background .15s ease-in-out;
-                box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
-            }
-
-            .custom-range::-webkit-slider-thumb:hover {
-                background: #0056b3;
-            }
-
-            .range-value {
-                position: absolute;
-                top: -25px;
-                padding: 2px 8px;
-                background: #007bff;
-                color: white;
-                border-radius: 4px;
-                font-size: 0.875rem;
-                transform: translateX(-50%);
-            }
-
-            .range-value::after {
-                content: '';
-                position: absolute;
-                bottom: -5px;
-                left: 50%;
-                transform: translateX(-50%);
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-top: 5px solid #007bff;
-            }
-
-            .framework-component {
-                background: #fff;
-                border-radius: 10px;
-                padding: 1.5rem;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                margin-bottom: 1.5rem;
-            }
-
-            .formula-box {
-                background: #f8f9fa;
-                border-radius: 10px;
-                padding: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .formula {
-                font-family: "Courier New", monospace;
-                font-size: 1.2rem;
-                padding: 1rem;
-                background: #fff;
-                border-radius: 5px;
-                text-align: center;
-                margin-bottom: 1rem;
-            }
-
-            .calculation-section {
-                margin-bottom: 2rem;
-            }
-
-            .example-box {
-                border-left: 4px solid #007bff;
-                padding: 1rem;
-                margin-top: 1rem;
-                background: #fff;
-                border-radius: 0 10px 10px 0;
-            }
-
-            .recommendation-item {
-                display: flex;
-                align-items: flex-start;
-                margin-bottom: 1.5rem;
-                padding: 1rem;
-                background: #fff;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-
-            .recommendation-icon {
-                font-size: 2rem;
-                margin-right: 1rem;
-            }
-
-            .recommendation-text {
-                flex: 1;
-            }
-
-            .tip-card {
-                background: #fff;
-                border-radius: 10px;
-                padding: 1.5rem;
-                margin-bottom: 1rem;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                border-left: 4px solid #007bff;
-            }
-
-            .formula-explanation {
-                background: #fff;
-                padding: 1rem;
-                border-radius: 8px;
-                margin: 1rem 0;
-            }
-
-            .component-details {
-                background: #fff;
-                padding: 1.5rem;
-                border-radius: 8px;
-                margin-top: 1rem;
-            }
-
-            .step-content h5 {
-                color: #007bff;
-                margin-bottom: 1rem;
-            }
-
-            .framework-section {
-                background: #fff;
-                padding: 2rem;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-
-            /* Add these styles to your existing CSS */
-            .metric-card {
-                background-color: #ffffff;
-                border: 1px solid rgba(0,0,0,0.1);
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                transition: transform 0.2s;
-            }
-
-            .metric-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-
-            .metric-value {
-                color: #2c3e50;
-            }
-
-            .badge {
-                font-size: 0.9rem;
-                padding: 0.5em 0.8em;
-            }
-
-            .badge.bg-secondary {
-                background-color: #6c757d !important;
-                color: #ffffff !important;
-            }
-
-            .badge.bg-primary {
-                background-color: #007bff !important;
-                color: #ffffff !important;
-            }
-
-            .text-muted {
-                color: #6c757d !important;
-            }
-
-            .progress {
-                background-color: #e9ecef;
-                height: 8px;
-                border-radius: 4px;
-                margin: 0.5rem 0;
-            }
-
-            .progress-bar {
-                background-color: #007bff;
-                transition: width 0.3s ease;
-            }
-
-            /* Improved text contrast */
-            .h3, .h4, .h5, .h6 {
-                color: #2c3e50;
-            }
-
-            .metric-card .text-primary {
-                color: #007bff !important;
-            }
-
-            /* Quick stats improvements */
-            .metric-card .bi {
-                font-size: 1.5rem;
-                color: #007bff;
-            }
-
-            .fw-bold {
-                color: #2c3e50;
-                font-size: 1.1rem;
-            }
-
-            /* Alert styling */
-            .alert-info {
-                background-color: #e3f2fd;
-                border-color: #bee5eb;
-                color: #0c5460;
-            }
-
-            /* Accordion improvements */
-            .accordion-button {
-                background-color: #f8f9fa;
-                color: #2c3e50;
-            }
-
-            .accordion-button:not(.collapsed) {
-                background-color: #007bff;
-                color: #ffffff;
-            }
-
-            .accordion-button:not(.collapsed)::after {
-                filter: brightness(0) invert(1);
-            }
-
-            /* Dark theme compatibility */
-            @media (prefers-color-scheme: dark) {
-                .metric-card {
-                    background-color: #ffffff;
-                }
-
-                .metric-value, .h3, .h4, .h5, .h6 {
-                    color: #2c3e50;
-                }
-
-                .text-muted {
-                    color: #6c757d !important;
-                }
-            }
-
-            .recommendations-section .recommendation-card {
-                background: #f8f9fa;
-                border-left: 4px solid #007bff;
-                padding: 1rem;
-                margin-bottom: 1rem;
-                border-radius: 0 4px 4px 0;
-            }
-
-            .recommendations-section .recommendation-card.warning {
-                border-left-color: #ffc107;
-            }
-
-            .recommendations-section .recommendation-card.success {
-                border-left-color: #28a745;
-            }
-
-            /* Usage Statistics Styles */
-            .metric-card {
-                transition: transform 0.2s;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-
-            .metric-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-
-            .usage-stats .progress {
-                background-color: #e9ecef;
-                border-radius: 4px;
-            }
-
-            .usage-stats .progress-bar {
-                background-color: #007bff;
-            }
-
-            .usage-metric {
-                border: 1px solid rgba(0,0,0,0.1);
-                transition: transform 0.2s;
-            }
-
-            .usage-metric:hover {
-                transform: translateY(-2px);
-            }
-
-            .recommendation-list {
-                list-style: none;
-                padding-left: 0;
-            }
-
-            .recommendation-list li {
-                position: relative;
-                padding-left: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .recommendation-list li:before {
-                content: "→";
-                position: absolute;
-                left: 0;
-                color: #007bff;
-            }
-
-            .tip-card {
-                height: 100%;
-                transition: transform 0.2s;
-            }
-
-            .tip-card:hover {
-                transform: translateY(-2px);
-            }
-
-            .badge {
-                font-weight: 500;
-                padding: 0.5em 0.8em;
-            }
-
-            .text-muted {
-                font-size: 0.875rem;
-            }
-
-            /* Break-Even Analysis Styles */
-            .metric-card {
-                transition: transform 0.2s;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            }
-
-            .metric-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-
-            .requirement-item {
-                padding: 1rem;
-                background: #f8f9fa;
-                border-radius: 8px;
-            }
-
-            .progress {
-                background-color: #e9ecef;
-                border-radius: 4px;
-            }
-
-            .progress-bar {
-                background-color: #007bff;
-                transition: width 0.6s ease;
-            }
-
-            .metric-item {
-                padding: 1rem;
-                background: #f8f9fa;
-                border-radius: 8px;
-                transition: transform 0.2s;
-            }
-
-            .metric-item:hover {
-                transform: translateY(-2px);
-            }
-
-            .explanation-card {
-                height: 100%;
-                background: #fff;
-                transition: transform 0.2s;
-            }
-
-            .explanation-card:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-
-            .explanation-card ul {
-                padding-left: 1.2rem;
-            }
-
-            .recommendations-section .card {
-                transition: transform 0.2s;
-            }
-
-            .recommendations-section .card:hover {
-                transform: translateY(-2px);
-            }
-        </style>
-    </head>
-    <body>
-        <h1 class="text-center mb-4">GenAI Project ROI Calculator</h1>
-
-        <!-- Tabs -->
-        <ul class="nav nav-tabs" id="mainTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button
-                    class="nav-link active"
-                    id="calculator-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#calculator"
-                    type="button"
-                    role="tab"
-                >
-                    <i class="bi bi-calculator"></i> Calculator
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button
-                    class="nav-link"
-                    id="documentation-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#documentation"
-                    type="button"
-                    role="tab"
-                >
-                    <i class="bi bi-book"></i> Documentation
-                </button>
-            </li>
-        </ul>
-
-        <div class="tab-content" id="mainTabContent">
-            <!-- Calculator Tab -->
-            <div
-                class="tab-pane fade show active"
-                id="calculator"
-                role="tabpanel"
-            >
-                <div class="row mt-4">
-                    <!-- Input Section -->
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h3>
-                                    <i class="bi bi-sliders"></i> Input
-                                    Parameters
-                                </h3>
-
-                                <!-- Build Cost Section -->
-                                <h5 class="mt-3">
-                                    <i class="bi bi-tools"></i> Build Costs
-                                </h5>
-                                <div
-                                    class="form-check form-switch toggle-button"
-                                >
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        id="buildCostToggle"
-                                        onchange="toggleBuildCostInputs(); calculateROI();"
-                                    />
-                                    <label
-                                        class="form-check-label"
-                                        for="buildCostToggle"
-                                        >Use Build Duration and Daily
-                                        Cost</label
-                                    >
-                                </div>
-
-                                <!-- Total Build Cost -->
-                                <div id="totalBuildCostDiv">
-                                    <label
-                                        for="totalBuildCost"
-                                        class="form-label"
-                                        >Total Build Cost (€):</label
-                                    >
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="totalBuildCost"
-                                            value="10000"
-                                            min="0"
-                                            step="100"
-                                            onchange="calculateROI();"
-                                        />
-                                    </div>
-                                </div>
-
-                                <!-- Build Duration and Daily Cost -->
-                                <div
-                                    id="buildDurationDiv"
-                                    style="display: none"
-                                >
-                                    <label for="buildDays" class="form-label"
-                                        >Number of Build Days:</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control mb-3"
-                                        id="buildDays"
-                                        value="20"
-                                        min="0"
-                                        step="1"
-                                        onchange="calculateROI();"
-                                    />
-                                    <label for="costPerDay" class="form-label"
-                                        >Cost per Day (€):</label
-                                    >
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="costPerDay"
-                                            value="500"
-                                            min="0"
-                                            step="10"
-                                            onchange="calculateROI();"
-                                        />
-                                    </div>
-                                </div>
-
-                                <!-- Time Saved per User per Week -->
-                                <h5 class="mt-4">
-                                    <i class="bi bi-clock"></i> Operational
-                                    Parameters
-                                </h5>
-                                <div class="mb-3">
-                                    <label
-                                        for="timeSaved"
-                                        class="form-label slider-label"
-                                        >Time Saved per User per Week (hours):
-                                        <span id="timeSavedValue"
-                                            >1</span
-                                        ></label
-                                    >
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="0"
-                                            max="10"
-                                            step="0.1"
-                                            id="timeSaved"
-                                            value="1"
-                                            onchange="updateSlider('timeSaved'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
-                                    </div>
-                                </div>
-                                <!-- Monetary Value of Time Saved -->
-                                <div class="mb-3">
-                                    <label for="valuePerHour" class="form-label"
-                                        >Monetary Value of Time Saved:</label
-                                    >
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="valuePerHour"
-                                            value="100"
-                                            min="0"
-                                            step="1"
-                                            onchange="calculateROI();"
-                                        />
-                                        <span class="input-group-text"
-                                            >per hour</span
-                                        >
-                                    </div>
-                                </div>
-                                <!-- Queries per User per Day -->
-                                <div class="mb-3">
-                                    <label for="queriesPerDay" class="form-label slider-label">
-                                        Queries per User per Day: <span id="queriesPerDayValue">10</span>
-                                    </label>
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="0"
-                                            max="50"
-                                            step="1"
-                                            id="queriesPerDay"
-                                            value="10"
-                                            onchange="updateSlider('queriesPerDay'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
-                                    </div>
-                                </div>
-                                <!-- Number of Users -->
-                                <div class="mb-3">
-                                    <label for="numberOfUsers" class="form-label slider-label">
-                                        Number of Users: <span id="numberOfUsersValue">50</span>
-                                    </label>
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="1"
-                                            max="500"
-                                            step="1"
-                                            id="numberOfUsers"
-                                            value="50"
-                                            onchange="updateSlider('numberOfUsers'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
-                                    </div>
-                                </div>
-                                <!-- Number of Months -->
-                                <div class="mb-3">
-                                    <label for="numberOfMonths" class="form-label slider-label">
-                                        Number of Months: <span id="numberOfMonthsValue">12</span>
-                                    </label>
-                                    <div class="custom-range-container">
-                                        <input type="range"
-                                            class="custom-range"
-                                            min="1"
-                                            max="36"
-                                            step="1"
-                                            id="numberOfMonths"
-                                            value="12"
-                                            onchange="updateSlider('numberOfMonths'); calculateROI();"
-                                            oninput="updateSliderProgress(this)"
-                                        />
-                                    </div>
-                                </div>
-                                <!-- Working Days per Month -->
-                                <div class="mb-3">
-                                    <label for="workingDays" class="form-label"
-                                        >Working Days per Month:</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="workingDays"
-                                        value="22"
-                                        min="1"
-                                        max="31"
-                                        step="1"
-                                        onchange="calculateROI();"
-                                    />
-                                </div>
-                                <!-- Weeks per Month -->
-                                <div class="mb-3">
-                                    <label
-                                        for="weeksPerMonth"
-                                        class="form-label"
-                                        >Weeks per Month:</label
-                                    >
-                                    <input
-                                        type="number"
-                                        class="form-control"
-                                        id="weeksPerMonth"
-                                        value="4.3"
-                                        min="1"
-                                        max="5"
-                                        step="0.1"
-                                        onchange="calculateROI();"
-                                    />
-                                </div>
-                                <!-- Cost per Query -->
-                                <div class="mb-3">
-                                    <label for="costPerQuery" class="form-label"
-                                        >Cost per Query (€):</label
-                                    >
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="costPerQuery"
-                                            value="0.00315"
-                                            min="0"
-                                            step="0.0001"
-                                            onchange="calculateROI();"
-                                        />
-                                    </div>
-                                </div>
-                                <!-- Fixed Cost per Month -->
-                                <div class="mb-3">
-                                    <label for="fixedCost" class="form-label"
-                                        >Fixed Cost per Month (€):</label
-                                    >
-                                    <div class="input-group">
-                                        <span class="input-group-text">€</span>
-                                        <input
-                                            type="number"
-                                            class="form-control"
-                                            id="fixedCost"
-                                            value="3000"
-                                            min="0"
-                                            step="100"
-                                            onchange="calculateROI();"
-                                        />
-                                    </div>
-                                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator</title>
+
+    <!-- External Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Application CSS -->
+    <style>
+        .metric-card {
+            background-color: #ffffff;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .badge {
+            font-size: 0.9rem;
+            padding: 0.5em 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="mb-4">ROI Calculator</h1>
+
+        <!-- Error Container -->
+        <div id="errorContainer"></div>
+
+        <!-- Input Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Input Parameters</h5>
+                <form id="roiForm">
+                    <!-- User Base -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">User Base</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="numberOfUsers" class="form-label">Number of Users</label>
+                                <input type="number" class="form-control" id="numberOfUsers" min="0" value="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="workingDays" class="form-label">Working Days per Month</label>
+                                <input type="number" class="form-control" id="workingDays" min="1" max="31" value="20">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Result Section -->
-                    <div class="col-md-8">
-                        <!-- Accordion for Results -->
-                        <div class="accordion mb-4" id="resultsAccordion">
-                            <!-- Summary Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingSummary">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseSummary" aria-expanded="true" aria-controls="collapseSummary">
-                                        <i class="bi bi-clipboard-data"></i> ROI Summary Dashboard
-                                    </button>
-                                </h2>
-                                <div id="collapseSummary" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingSummary" data-bs-parent="#resultsAccordion">
-                                    <div class="accordion-body">
-                                        <!-- Status Overview Alert -->
-                                        <div class="alert alert-info mb-4">
-                                            <h6 class="alert-heading">
-                                                <i class="bi bi-info-circle"></i> Project ROI Overview
-                                            </h6>
-                                            <p class="mb-0">Comprehensive analysis of your GenAI project's return on investment based on current inputs.</p>
-                                        </div>
+                    <!-- Time & Value -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Time & Value</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="timeSaved" class="form-label">Time Saved (hours/day)</label>
+                                <input type="number" class="form-control" id="timeSaved" min="0" step="0.1" value="0">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="valuePerHour" class="form-label">Value per Hour (€)</label>
+                                <input type="number" class="form-control" id="valuePerHour" min="0" value="0">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="queriesPerDay" class="form-label">Queries per Day</label>
+                                <input type="number" class="form-control" id="queriesPerDay" min="0" value="0">
+                            </div>
+                        </div>
+                    </div>
 
-                                        <!-- Key Metrics Row -->
-                                        <div class="row g-4 mb-4">
-                                            <!-- Total ROI Card -->
-                                            <div class="col-md-4">
-                                                <div class="metric-card h-100 p-4 border rounded bg-white">
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <h6 class="text-primary mb-0">
-                                                            <i class="bi bi-graph-up-arrow"></i> Total ROI
-                                                        </h6>
-                                                        <span class="badge bg-primary" id="roiPeriod">12 Months</span>
-                                                    </div>
-                                                    <div class="metric-value mb-2">
-                                                        <span id="totalROISummary" class="h3 mb-0">€0</span>
-                                                    </div>
-                                                    <div class="progress mb-2" style="height: 8px;">
-                                                        <div class="progress-bar" role="progressbar" id="roiProgressBar"></div>
-                                                    </div>
-                                                    <small class="text-muted">
-                                                        Net return including all costs and savings
-                                                    </small>
-                                                </div>
-                                            </div>
+                    <!-- Costs -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Costs</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="costPerQuery" class="form-label">Cost per Query (€)</label>
+                                <input type="number" class="form-control" id="costPerQuery" min="0" step="0.01" value="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fixedCost" class="form-label">Fixed Monthly Cost (€)</label>
+                                <input type="number" class="form-control" id="fixedCost" min="0" value="0">
+                            </div>
+                        </div>
+                    </div>
 
-                                            <!-- Break-Even Point Card -->
-                                            <div class="col-md-4">
-                                                <div class="metric-card h-100 p-4 border rounded bg-white">
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <h6 class="text-primary mb-0">
-                                                            <i class="bi bi-calendar-check"></i> Break-Even Point
-                                                        </h6>
-                                                        <span class="badge bg-primary">Timeline</span>
-                                                    </div>
-                                                    <div class="metric-value mb-2">
-                                                        <span id="breakEvenPoint" class="h3 mb-0">0</span>
-                                                        <span class="text-muted"> months</span>
-                                                    </div>
-                                                    <div class="progress mb-2" style="height: 8px;">
-                                                        <div class="progress-bar" role="progressbar" id="breakEvenProgressBar"></div>
-                                                    </div>
-                                                    <small class="text-muted">
-                                                        Expected time to recover investment
-                                                    </small>
-                                                </div>
-                                            </div>
+                    <!-- Build Cost -->
+                    <div class="mb-4">
+                        <h6 class="mb-3">Build Cost</h6>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="buildCostToggle">
+                            <label class="form-check-label" for="buildCostToggle">
+                                Calculate build cost from days and rate
+                            </label>
+                        </div>
+                        <div id="calculatedBuildCost" class="row g-3" style="display: none;">
+                            <div class="col-md-6">
+                                <label for="buildDays" class="form-label">Build Days</label>
+                                <input type="number" class="form-control" id="buildDays" min="0" value="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="costPerDay" class="form-label">Cost per Day (€)</label>
+                                <input type="number" class="form-control" id="costPerDay" min="0" value="0">
+                            </div>
+                        </div>
+                        <div id="customBuildCost" class="row g-3">
+                            <div class="col-12">
+                                <label for="totalBuildCost" class="form-label">Total Build Cost (€)</label>
+                                <input type="number" class="form-control" id="totalBuildCost" min="0" value="0">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-                                            <!-- Monthly Value Card -->
-                                            <div class="col-md-4">
-                                                <div class="metric-card h-100 p-4 border rounded bg-white">
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <h6 class="text-primary mb-0">
-                                                            <i class="bi bi-currency-euro"></i> Monthly Value
-                                                        </h6>
-                                                        <span class="badge bg-primary">Per Month</span>
-                                                    </div>
-                                                    <div class="metric-value mb-2">
-                                                        <span id="monthlyValueGenerated" class="h3 mb-0">€0</span>
-                                                    </div>
-                                                    <div class="progress mb-2" style="height: 8px;">
-                                                        <div class="progress-bar" role="progressbar" id="valueProgressBar"></div>
-                                                    </div>
-                                                    <small class="text-muted">
-                                                        Net value generated monthly
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Detailed Metrics Row -->
-                                        <div class="row g-4">
-                                            <!-- Per User Metrics -->
-                                            <div class="col-md-6">
-                                                <div class="metric-card p-4 border rounded bg-white">
-                                                    <h6 class="text-primary mb-3">
-                                                        <i class="bi bi-person-check"></i> Per User Metrics
-                                                    </h6>
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <span>ROI per User:</span>
-                                                        <span id="roiPerUserSummary" class="badge bg-secondary">€0</span>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <span>Minimum Benefit Required:</span>
-                                                        <span id="benefitPerUserMinSummary" class="badge bg-secondary">€0</span>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>Monthly Cost per User:</span>
-                                                        <span id="costPerUserSummary" class="badge bg-secondary">€0</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Project Requirements -->
-                                            <div class="col-md-6">
-                                                <div class="metric-card p-4 border rounded bg-white">
-                                                    <h6 class="text-primary mb-3">
-                                                        <i class="bi bi-list-check"></i> Project Requirements
-                                                    </h6>
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <span>Minimum Users Needed:</span>
-                                                        <span id="numberOfUsersMinSummary" class="badge bg-secondary">0</span>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <span>Total Build Cost:</span>
-                                                        <span id="totalBuildCostDisplay" class="badge bg-secondary">€0</span>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <span>Monthly Operating Cost:</span>
-                                                        <span id="solutionCostPerMonth" class="badge bg-secondary">€0</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Quick Stats Row -->
-                                        <div class="row g-4 mt-4">
-                                            <div class="col-12">
-                                                <div class="metric-card p-4 border rounded bg-light">
-                                                    <div class="row g-3">
-                                                        <div class="col-md-3">
-                                                            <div class="text-center">
-                                                                <div class="text-primary mb-2">
-                                                                    <i class="bi bi-clock-history h3"></i>
-                                                                </div>
-                                                                <div class="small text-muted">Time Saved</div>
-                                                                <div class="fw-bold" id="totalTimeSaved">0 hours/month</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="text-center">
-                                                                <div class="text-primary mb-2">
-                                                                    <i class="bi bi-people h3"></i>
-                                                                </div>
-                                                                <div class="small text-muted">Active Users</div>
-                                                                <div class="fw-bold" id="activeUserCount">0</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="text-center">
-                                                                <div class="text-primary mb-2">
-                                                                    <i class="bi bi-chat-dots h3"></i>
-                                                                </div>
-                                                                <div class="small text-muted">Monthly Queries</div>
-                                                                <div class="fw-bold" id="monthlyQueryCount">0</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <div class="text-center">
-                                                                <div class="text-primary mb-2">
-                                                                    <i class="bi bi-cash-stack h3"></i>
-                                                                </div>
-                                                                <div class="small text-muted">Cost Efficiency</div>
-                                                                <div class="fw-bold" id="costEfficiency">0%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        <!-- Results Section -->
+        <div class="accordion" id="resultsAccordion">
+            <!-- ROI Summary -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSummary">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSummary" aria-expanded="true" aria-controls="collapseSummary">
+                        <i class="bi bi-graph-up"></i> ROI Summary
+                    </button>
+                </h2>
+                <div id="collapseSummary" class="accordion-collapse collapse show" aria-labelledby="headingSummary"
+                    data-bs-parent="#resultsAccordion">
+                    <div class="accordion-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="metric-card h-100 p-4">
+                                    <h6 class="text-primary mb-3">Monthly ROI</h6>
+                                    <div class="h3" id="totalROISummary">€0</div>
                                 </div>
                             </div>
-
-                            <!-- Active Users and Queries Needed to Cover Costs -->
-                            <div class="accordion-item">
-                                <h2
-                                    class="accordion-header"
-                                    id="headingActiveUsers"
-                                >
-                                    <button
-                                        class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseActiveUsers"
-                                        aria-expanded="false"
-                                        aria-controls="collapseActiveUsers"
-                                    >
-                                        <i class="bi bi-people-fill"></i> Active
-                                        Users and Queries Needed
-                                    </button>
-                                </h2>
-                                <div
-                                    id="collapseActiveUsers"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="headingActiveUsers"
-                                    data-bs-parent="#resultsAccordion"
-                                >
-                                    <div class="accordion-body">
-                                        <p>
-                                            <strong
-                                                >Users Needed per Month:</strong
-                                            >
-                                            <span
-                                                id="usersNeededPerMonth"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries Needed per
-                                                Month:</strong
-                                            >
-                                            <span
-                                                id="queriesNeededPerMonth"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Users Needed per Week:</strong
-                                            >
-                                            <span
-                                                id="usersNeededPerWeek"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries Needed per
-                                                Week:</strong
-                                            >
-                                            <span
-                                                id="queriesNeededPerWeek"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Users Needed per Day:</strong
-                                            >
-                                            <span id="usersNeededPerDay"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries Needed per Day:</strong
-                                            >
-                                            <span
-                                                id="queriesNeededPerDay"
-                                            ></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Detailed Results -->
-                            <div class="accordion-item">
-                                <h2
-                                    class="accordion-header"
-                                    id="headingDetailedResults"
-                                >
-                                    <button
-                                        class="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#collapseDetailedResults"
-                                        aria-expanded="false"
-                                        aria-controls="collapseDetailedResults"
-                                    >
-                                        <i class="bi bi-list-check"></i>
-                                        Detailed Results
-                                    </button>
-                                </h2>
-                                <div
-                                    id="collapseDetailedResults"
-                                    class="accordion-collapse collapse"
-                                    aria-labelledby="headingDetailedResults"
-                                    data-bs-parent="#resultsAccordion"
-                                >
-                                    <div class="accordion-body">
-                                        <p>
-                                            <strong
-                                                >Benefit per User
-                                                (B<sub>u</sub>):</strong
-                                            >
-                                            <span id="benefitPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries per User per Month
-                                                (Q<sub>u</sub>):</strong
-                                            >
-                                            <span id="queriesPerMonth"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Variable Cost per User
-                                                (C<sub>var_u</sub>):</strong
-                                            >
-                                            <span
-                                                id="variableCostPerUser"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Fixed Cost per User
-                                                (C<sub>fixed_u</sub>):</strong
-                                            >
-                                            <span id="fixedCostPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Total Cost per User
-                                                (C<sub>u</sub>):</strong
-                                            >
-                                            <span id="totalCostPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >ROI per User
-                                                (ROI<sub>u</sub>):</strong
-                                            >
-                                            <span id="roiPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Total ROI per Month:</strong
-                                            >
-                                            <span id="totalROI"></span>
-                                        </p>
-                                        <p>
-                                            <strong>Total Build Cost:</strong>
-                                            <span
-                                                id="totalBuildCostDetailed"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Net ROI over
-                                                <span
-                                                    id="totalMonthsDetail"
-                                                ></span>
-                                                Months:</strong
-                                            >
-                                            <span id="netROI"></span>
-                                        </p>
-                                        <p>
-                                            <strong>Break-Even Point:</strong>
-                                            <span
-                                                id="breakEvenPointDetailed"
-                                            ></span>
-                                            Months
-                                        </p>
-                                        <p>
-                                            <strong>Benefit per User Minimum:</strong>
-                                            <span id="benefitPerUserMin"></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Break-Even Analysis Section -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingBreakEven">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseBreakEven" aria-expanded="false" aria-controls="collapseBreakEven">
-                                        <i class="bi bi-graph-up-arrow"></i> Break-Even Analysis & Requirements
-                                    </button>
-                                </h2>
-                                <div id="collapseBreakEven" class="accordion-collapse collapse" aria-labelledby="headingBreakEven"
-                                    data-bs-parent="#resultsAccordion">
-                                    <div class="accordion-body">
-                                        <!-- Introduction Card -->
-                                        <div class="alert alert-info mb-4">
-                                            <h6 class="alert-heading"><i class="bi bi-info-circle"></i> Understanding Break-Even Requirements</h6>
-                                            <p class="mb-0">These calculations show the minimum usage needed to achieve ROI based on your current cost structure and pricing model.</p>
-                                        </div>
-
-                                        <!-- Break-Even Metrics -->
-                                        <div class="row g-4 mb-4">
-                                            <!-- Monthly Requirements Card -->
-                                            <div class="col-md-6">
-                                                <div class="metric-card h-100 p-4 border rounded bg-white">
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <h6 class="text-primary mb-0">
-                                                            <i class="bi bi-calendar-month"></i> Monthly Requirements
-                                                        </h6>
-                                                        <span class="badge bg-primary">Minimum Targets</span>
-                                                    </div>
-                                                    <div class="requirements-list">
-                                                        <div class="requirement-item mb-3">
-                                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                <span>Users Required:</span>
-                                                                <span class="badge bg-secondary" id="usersNeededPerMonth">7</span>
-                                                            </div>
-                                                            <div class="progress" style="height: 8px;">
-                                                                <div class="progress-bar" role="progressbar" id="userProgressBar"></div>
-                                                            </div>
-                                                            <small class="text-muted">Based on your total user base of <span id="totalUserBase">50</span></small>
-                                                        </div>
-                                                        <div class="requirement-item">
-                                                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                                                <span>Queries Required:</span>
-                                                                <span class="badge bg-secondary" id="queriesNeededPerMonth">154</span>
-                                                            </div>
-                                                            <div class="progress" style="height: 8px;">
-                                                                <div class="progress-bar" role="progressbar" id="queryProgressBar"></div>
-                                                            </div>
-                                                            <small class="text-muted">Approximately <span id="queriesPerUserMonth">22</span> queries per user</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Daily Distribution Card -->
-                                            <div class="col-md-6">
-                                                <div class="metric-card h-100 p-4 border rounded bg-white">
-                                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                                        <h6 class="text-primary mb-0">
-                                                            <i class="bi bi-clock"></i> Daily Distribution
-                                                        </h6>
-                                                        <span class="badge bg-primary">Per Working Day</span>
-                                                    </div>
-                                                    <div class="daily-metrics">
-                                                        <div class="metric-item mb-3">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <span>Active Users:</span>
-                                                                <span class="badge bg-secondary" id="usersNeededPerDay">1</span>
-                                                            </div>
-                                                            <small class="text-muted d-block mt-1">
-                                                                <i class="bi bi-people"></i> Minimum daily active users needed
-                                                            </small>
-                                                        </div>
-                                                        <div class="metric-item">
-                                                            <div class="d-flex justify-content-between align-items-center">
-                                                                <span>Total Queries:</span>
-                                                                <span class="badge bg-secondary" id="queriesNeededPerDay">7</span>
-                                                            </div>
-                                                            <small class="text-muted d-block mt-1">
-                                                                <i class="bi bi-chat"></i> Spread across all active users
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Detailed Explanation Card -->
-                                        <div class="card mb-4">
-                                            <div class="card-header bg-light">
-                                                <h6 class="mb-0"><i class="bi bi-journal-text"></i> Understanding These Numbers</h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row g-3">
-                                                    <div class="col-md-4">
-                                                        <div class="explanation-card p-3 border rounded">
-                                                            <h6 class="text-primary">User Requirements</h6>
-                                                            <p class="small mb-0">The minimum number of users needed is calculated based on:</p>
-                                                            <ul class="small mt-2 mb-0">
-                                                                <li>Fixed costs distribution</li>
-                                                                <li>Per-user value generation</li>
-                                                                <li>Expected usage patterns</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="explanation-card p-3 border rounded">
-                                                            <h6 class="text-primary">Query Distribution</h6>
-                                                            <p class="small mb-0">Query requirements are based on:</p>
-                                                            <ul class="small mt-2 mb-0">
-                                                                <li>Cost per query</li>
-                                                                <li>Value per interaction</li>
-                                                                <li>Working days per month</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="explanation-card p-3 border rounded">
-                                                            <h6 class="text-primary">Break-Even Point</h6>
-                                                            <p class="small mb-0">You'll reach break-even when:</p>
-                                                            <ul class="small mt-2 mb-0">
-                                                                <li>Minimum user count is active</li>
-                                                                <li>Required queries are performed</li>
-                                                                <li>Value per query is maintained</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Recommendations Section -->
-                                        <div class="recommendations-section">
-                                            <h6 class="text-primary mb-3">
-                                                <i class="bi bi-lightbulb"></i> Smart Recommendations
-                                            </h6>
-                                            <div class="row g-3" id="breakEvenRecommendations">
-                                                <!-- Recommendations will be dynamically inserted here -->
-                                            </div>
-                                        </div>
-
-                                        <!-- Break-Even Status -->
-                                        <div id="breakEvenStatus" class="mb-4">
-                                            <!-- Status will be dynamically inserted here -->
-                                        </div>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="metric-card h-100 p-4">
+                                    <h6 class="text-primary mb-3">Monthly Value Generated</h6>
+                                    <div class="h3" id="monthlyValueGenerated">€0</div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Charts -->
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h3>
-                                    <i class="bi bi-graph-up"></i> ROI Over Time
-                                </h3>
-                                <div class="chart-container">
-                                    <canvas id="roiChart"></canvas>
+            <!-- Detailed Results -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingDetails">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
+                        <i class="bi bi-list-check"></i> Detailed Results
+                    </button>
+                </h2>
+                <div id="collapseDetails" class="accordion-collapse collapse" aria-labelledby="headingDetails"
+                    data-bs-parent="#resultsAccordion">
+                    <div class="accordion-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="metric-card h-100 p-4">
+                                    <h6 class="text-primary mb-3">Benefits Analysis</h6>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Benefit per User:</span>
+                                        <span id="benefitPerUser" class="badge bg-primary">€0</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total Monthly Value:</span>
+                                        <span id="totalMonthlyValue" class="badge bg-success">€0</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Add this after the Summary accordion section and before the Charts -->
-                        <div class="card recommendations-card mb-4">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <i class="bi bi-lightbulb"></i> Smart Recommendations
-                                </h4>
-                                <div class="recommendations-content">
-                                    <div class="recommendation-item fade-in">
-                                        <div class="recommendation-icon">💰</div>
-                                        <div class="recommendation-text">
-                                            <h5>Cost Optimization</h5>
-                                            <p>Based on your inputs, we recommend:</p>
-                                            <ul id="costRecommendations"></ul>
-                                        </div>
+                            <div class="col-md-6">
+                                <div class="metric-card h-100 p-4">
+                                    <h6 class="text-primary mb-3">Cost Analysis</h6>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Monthly Cost per User:</span>
+                                        <span id="totalCostPerUser" class="badge bg-danger">€0</span>
                                     </div>
-
-                                    <div class="recommendation-item fade-in">
-                                        <div class="recommendation-icon">👥</div>
-                                        <div class="recommendation-text">
-                                            <h5>User Scaling</h5>
-                                            <p>To optimize ROI:</p>
-                                            <ul id="scalingRecommendations"></ul>
-                                        </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Net ROI (12 months):</span>
+                                        <span id="netROI" class="badge bg-success">€0</span>
                                     </div>
                                 </div>
                             </div>
@@ -1434,765 +194,202 @@
                 </div>
             </div>
 
-            <!-- Documentation Tab -->
-            <div class="tab-pane fade" id="documentation" role="tabpanel">
-                <div class="container mt-4">
-                    <div class="section-header mb-4">
-                        <h2><i class="bi bi-book"></i> GenAI ROI Calculator Guide</h2>
-                        <p class="text-muted">Complete guide to understanding and optimizing your GenAI investment</p>
-                    </div>
-
-                    <div class="accordion custom-accordion" id="documentationAccordion">
-                        <!-- Quick Start Guide -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#quickStart">
-                                    <i class="bi bi-rocket-takeoff me-2"></i> Quick Start Guide
-                                </button>
-                            </h2>
-                            <div id="quickStart" class="accordion-collapse collapse show">
-                                <div class="accordion-body">
-                                    <div class="step-guide">
-                                        <div class="step">
-                                            <div class="step-number">1</div>
-                                            <div class="step-content">
-                                                <h5>Project Setup 🚀</h5>
-                                                <p>Begin by defining your project parameters:</p>
-                                                <ul>
-                                                    <li>Build costs (development and implementation)</li>
-                                                    <li>Project duration</li>
-                                                    <li>Team size and composition</li>
-                                                </ul>
-                                                <div class="example-box">
-                                                    <p><strong>Example:</strong> A 3-month project with 2 developers at €500/day = €60,000 build cost</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-number">2</div>
-                                            <div class="step-content">
-                                                <h5>Usage Parameters 📊</h5>
-                                                <p>Define how your GenAI solution will be used:</p>
-                                                <ul>
-                                                    <li>Number of users</li>
-                                                    <li>Queries per user per day</li>
-                                                    <li>Time saved per interaction</li>
-                                                </ul>
-                                                <div class="example-box">
-                                                    <p><strong>Example:</strong> 50 users making 10 queries/day, saving 15 minutes per query</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="step">
-                                            <div class="step-number">3</div>
-                                            <div class="step-content">
-                                                <h5>Cost Structure 💰</h5>
-                                                <p>Define operational costs:</p>
-                                                <ul>
-                                                    <li>API costs per query</li>
-                                                    <li>Infrastructure costs</li>
-                                                    <li>Maintenance costs</li>
-                                                </ul>
-                                                <div class="example-box">
-                                                    <p><strong>Example:</strong> €0.02/query + €500/month fixed costs</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Framework Deep Dive -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#framework">
-                                    <i class="bi bi-diagram-3 me-2"></i> Framework Deep Dive
-                                </button>
-                            </h2>
-                            <div id="framework" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <div class="framework-section">
-                                        <h5>ROI Framework Components</h5>
-
-                                        <div class="framework-component">
-                                            <h6>1. Cost Structure Analysis 📊</h6>
-                                            <div class="component-details">
-                                                <p><strong>Fixed Costs (FC):</strong></p>
-                                                <ul>
-                                                    <li>Initial development costs</li>
-                                                    <li>Infrastructure setup</li>
-                                                    <li>Training and onboarding</li>
-                                                </ul>
-                                                <p><strong>Variable Costs (VC):</strong></p>
-                                                <ul>
-                                                    <li>Per-query API costs</li>
-                                                    <li>Compute resources</li>
-                                                    <li>Storage costs</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="framework-component">
-                                            <h6>2. Benefit Calculation 📈</h6>
-                                            <div class="component-details">
-                                                <p><strong>Direct Benefits:</strong></p>
-                                                <ul>
-                                                    <li>Time savings per interaction</li>
-                                                    <li>Error reduction</li>
-                                                    <li>Process automation</li>
-                                                </ul>
-                                                <p><strong>Indirect Benefits:</strong></p>
-                                                <ul>
-                                                    <li>Improved decision making</li>
-                                                    <li>Employee satisfaction</li>
-                                                    <li>Innovation enablement</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Calculation Details -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#calculations">
-                                    <i class="bi bi-calculator me-2"></i> Calculation Details
-                                </button>
-                            </h2>
-                            <div id="calculations" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <div class="calculation-section">
-                                        <h5>Core Calculations</h5>
-
-                                        <div class="formula-box">
-                                            <h6>1. Monthly Benefit per User</h6>
-                                            <div class="formula">B_u = T_s × R × W_m</div>
-                                            <div class="formula-explanation">
-                                                <ul>
-                                                    <li>B_u: Monthly benefit per user</li>
-                                                    <li>T_s: Time saved per week</li>
-                                                    <li>R: Hourly rate</li>
-                                                    <li>W_m: Weeks per month</li>
-                                                </ul>
-                                            </div>
-                                            <div class="example-box">
-                                                <p><strong>Example:</strong> 2 hours/week × €50/hour × 4 weeks = €400/month per user</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="formula-box">
-                                            <h6>2. Total Monthly Cost</h6>
-                                            <div class="formula">C_m = FC_m + (VC_q × Q_t)</div>
-                                            <div class="formula-explanation">
-                                                <ul>
-                                                    <li>C_m: Total monthly cost</li>
-                                                    <li>FC_m: Fixed monthly costs</li>
-                                                    <li>VC_q: Variable cost per query</li>
-                                                    <li>Q_t: Total monthly queries</li>
-                                                </ul>
-                                            </div>
-                                            <div class="example-box">
-                                                <p><strong>Example:</strong> €500 + (€0.02 × 10,000 queries) = €700/month</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Best Practices -->
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#bestPractices">
-                                    <i class="bi bi-check-circle me-2"></i> Best Practices & Tips
-                                </button>
-                            </h2>
-                            <div id="bestPractices" class="accordion-collapse collapse">
-                                <div class="accordion-body">
-                                    <div class="tips-section">
-                                        <div class="tip-card">
-                                            <h6><i class="bi bi-lightning me-2"></i>Accurate Time Estimation</h6>
-                                            <p>Start with a pilot group to measure actual time savings before full deployment.</p>
-                                        </div>
-
-                                        <div class="tip-card">
-                                            <h6><i class="bi bi-graph-up me-2"></i>Scale Gradually</h6>
-                                            <p>Begin with a core user group and expand based on measured benefits.</p>
-                                        </div>
-
-                                        <div class="tip-card">
-                                            <h6><i class="bi bi-gear me-2"></i>Monitor Usage Patterns</h6>
-                                            <p>Regularly track query patterns to optimize costs and improve efficiency.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Charts Section -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingCharts">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseCharts" aria-expanded="false" aria-controls="collapseCharts">
+                        <i class="bi bi-graph-up"></i> ROI Charts
+                    </button>
+                </h2>
+                <div id="collapseCharts" class="accordion-collapse collapse" aria-labelledby="headingCharts"
+                    data-bs-parent="#resultsAccordion">
+                    <div class="accordion-body">
+                        <div class="chart-container">
+                            <canvas id="roiChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Bootstrap JS and Dependencies -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- External Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <!-- Chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Application JavaScript -->
+    <script>
+        // Global chart variable
+        let roiChart;
 
-        <script>
-            // Initialize variables for chart
-            var roiChart;
-
-            function updateSlider(id) {
-                var value = document.getElementById(id).value;
-                document.getElementById(id + "Value").innerText = value;
-                document
-                    .getElementById(id + "Value")
-                    .classList.add("animate__animated", "animate__fadeIn");
-                setTimeout(function () {
-                    document
-                        .getElementById(id + "Value")
-                        .classList.remove(
-                            "animate__animated",
-                            "animate__fadeIn",
-                        );
-                }, 500);
-            }
-
-            function formatCurrency(value) {
-                if (value >= 0) {
-                    return (
-                        '<span class="text-green">€' +
-                        value.toFixed(2) +
-                        "</span>"
-                    );
-                } else {
-                    return (
-                        '<span class="text-red">€' +
-                        value.toFixed(2) +
-                        "</span>"
-                    );
-                }
-            }
-
-            function formatKEUR(value) {
-                return (value / 1000).toFixed(2) + " k€";
-            }
-
-            function toggleBuildCostInputs() {
-                var isChecked =
-                    document.getElementById("buildCostToggle").checked;
-                if (isChecked) {
-                    document.getElementById("totalBuildCostDiv").style.display =
-                        "none";
-                    document.getElementById("buildDurationDiv").style.display =
-                        "block";
-                } else {
-                    document.getElementById("totalBuildCostDiv").style.display =
-                        "block";
-                    document.getElementById("buildDurationDiv").style.display =
-                        "none";
-                }
-            }
-
-            function calculateROI() {
-                try {
-                    // Get input values
-                    const inputs = {
-                        numberOfUsers: parseFloat(document.getElementById("numberOfUsers").value) || 0,
-                        timeSaved: parseFloat(document.getElementById("timeSaved").value) || 0,
-                        valuePerHour: parseFloat(document.getElementById("valuePerHour").value) || 0,
-                        queriesPerDay: parseFloat(document.getElementById("queriesPerDay").value) || 0,
-                        workingDays: parseFloat(document.getElementById("workingDays").value) || 0,
-                        costPerQuery: parseFloat(document.getElementById("costPerQuery").value) || 0,
-                        fixedCost: parseFloat(document.getElementById("fixedCost").value) || 0
-                    };
-
-                    // Helper function for safe element updates
-                    const updateElement = (id, value, prefix = '', suffix = '') => {
-                        const element = document.getElementById(id);
-                        if (element) {
-                            element.textContent = `${prefix}${value}${suffix}`;
-                        }
-                    };
-
-                    // Calculate metrics
-                    const monthlyValuePerUser = inputs.timeSaved * inputs.valuePerHour * inputs.workingDays;
-                    const monthlyQueriesPerUser = inputs.queriesPerDay * inputs.workingDays;
-                    const monthlyVariableCost = monthlyQueriesPerUser * inputs.costPerQuery;
-                    const monthlyFixedCostPerUser = inputs.fixedCost / inputs.numberOfUsers;
-                    const totalMonthlyCostPerUser = monthlyVariableCost + monthlyFixedCostPerUser;
-                    const monthlyROIPerUser = monthlyValuePerUser - totalMonthlyCostPerUser;
-                    const totalMonthlyROI = monthlyROIPerUser * inputs.numberOfUsers - inputs.fixedCost;
-
-                    // Update Summary section
-                    updateElement("totalROISummary", totalMonthlyROI.toFixed(2), '€');
-                    updateElement("monthlyValueGenerated", totalMonthlyROI.toFixed(2), '€');
-                    updateElement("roiPerUserSummary", monthlyROIPerUser.toFixed(2), '€');
-                    updateElement("costPerUserSummary", totalMonthlyCostPerUser.toFixed(2), '€');
-                    updateElement("solutionCostPerMonth", (inputs.fixedCost + (monthlyVariableCost * inputs.numberOfUsers)).toFixed(2), '€');
-
-                    // Update Quick Stats
-                    updateElement("totalTimeSaved", (inputs.timeSaved * inputs.numberOfUsers * inputs.workingDays).toFixed(0), '', ' hours/month');
-                    updateElement("activeUserCount", inputs.numberOfUsers);
-                    updateElement("monthlyQueryCount", (monthlyQueriesPerUser * inputs.numberOfUsers).toFixed(0));
-                    updateElement("costEfficiency", ((monthlyROIPerUser / totalMonthlyCostPerUser) * 100).toFixed(0), '', '%');
-
-                    // Calculate and update break-even metrics
-                    const buildCost = document.getElementById("buildCostToggle").checked ?
+        function calculateROI() {
+            try {
+                // Get input values
+                const inputs = {
+                    numberOfUsers: parseFloat(document.getElementById("numberOfUsers").value) || 0,
+                    timeSaved: parseFloat(document.getElementById("timeSaved").value) || 0,
+                    valuePerHour: parseFloat(document.getElementById("valuePerHour").value) || 0,
+                    queriesPerDay: parseFloat(document.getElementById("queriesPerDay").value) || 0,
+                    workingDays: parseFloat(document.getElementById("workingDays").value) || 0,
+                    costPerQuery: parseFloat(document.getElementById("costPerQuery").value) || 0,
+                    fixedCost: parseFloat(document.getElementById("fixedCost").value) || 0,
+                    buildCost: document.getElementById("buildCostToggle").checked ?
                         parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
-                        parseFloat(document.getElementById("totalBuildCost").value);
+                        parseFloat(document.getElementById("totalBuildCost").value) || 0
+                };
 
-                    const breakEvenMonths = Math.ceil(buildCost / totalMonthlyROI);
-                    updateElement("breakEvenPoint", breakEvenMonths);
-                    updateElement("totalBuildCostDisplay", buildCost.toFixed(2), '€');
+                // Calculate metrics
+                const metrics = {
+                    monthlyQueries: inputs.queriesPerDay * inputs.workingDays,
+                    monthlyBenefit: inputs.timeSaved * inputs.valuePerHour * inputs.workingDays,
+                    monthlyVariableCost: (inputs.queriesPerDay * inputs.workingDays) * inputs.costPerQuery,
+                    monthlyFixedCostPerUser: inputs.fixedCost / (inputs.numberOfUsers || 1),
+                    totalMonthlyCost: 0,
+                    monthlyROIPerUser: 0,
+                    totalMonthlyROI: 0,
+                    buildCost: inputs.buildCost
+                };
 
-                    // Calculate minimum requirements
-                    const minUsersNeeded = Math.ceil(inputs.fixedCost / (monthlyValuePerUser - monthlyVariableCost));
-                    updateElement("numberOfUsersMinSummary", minUsersNeeded);
-                    updateElement("benefitPerUserMinSummary", (totalMonthlyCostPerUser * 1.2).toFixed(2), '€');
+                // Calculate derived metrics
+                metrics.totalMonthlyCost = metrics.monthlyVariableCost + metrics.monthlyFixedCostPerUser;
+                metrics.monthlyROIPerUser = metrics.monthlyBenefit - metrics.totalMonthlyCost;
+                metrics.totalMonthlyROI = (metrics.monthlyROIPerUser * inputs.numberOfUsers) - inputs.fixedCost;
 
-                    // Update progress bars
-                    const updateProgressBar = (id, value, max) => {
-                        const progressBar = document.getElementById(id);
-                        if (progressBar) {
-                            const percentage = Math.min((value / max) * 100, 100);
-                            progressBar.style.width = `${percentage}%`;
-                        }
-                    };
+                // Update UI
+                updateROISummary(metrics, inputs);
+                updateDetailedResults(metrics, inputs);
+                updateROICharts(metrics, inputs);
 
-                    updateProgressBar("roiProgressBar", totalMonthlyROI, totalMonthlyROI * 1.5);
-                    updateProgressBar("valueProgressBar", monthlyValuePerUser, monthlyValuePerUser * 1.5);
-                    updateProgressBar("breakEvenProgressBar", inputs.numberOfUsers, inputs.numberOfUsers * 1.5);
-
-                } catch (error) {
-                    console.error("Error in calculateROI:", error);
-                }
+            } catch (error) {
+                console.error("Error in calculateROI:", error);
             }
+        }
 
-            function updateChart(numMonths, Total_ROI, Solution_Cost, N_u, ROI_u, C_build) {
-                try {
-                    const canvas = document.getElementById("roiChart");
-                    if (!canvas) {
-                        console.error("Chart canvas element not found");
-                        return;
-                    }
+        function updateROISummary(metrics, inputs) {
+            document.getElementById("totalROISummary").textContent = `€${metrics.totalMonthlyROI.toFixed(2)}`;
+            document.getElementById("monthlyValueGenerated").textContent =
+                `€${(metrics.monthlyBenefit * inputs.numberOfUsers).toFixed(2)}`;
+        }
 
-                    // Destroy existing chart if it exists
-                    if (roiChart) {
-                        roiChart.destroy();
-                    }
+        function updateDetailedResults(metrics, inputs) {
+            document.getElementById("benefitPerUser").textContent = `€${metrics.monthlyBenefit.toFixed(2)}`;
+            document.getElementById("totalMonthlyValue").textContent =
+                `€${(metrics.monthlyBenefit * inputs.numberOfUsers).toFixed(2)}`;
+            document.getElementById("totalCostPerUser").textContent = `€${metrics.totalMonthlyCost.toFixed(2)}`;
+            document.getElementById("netROI").textContent =
+                `€${(metrics.totalMonthlyROI * 12 - metrics.buildCost).toFixed(2)}`;
+        }
 
-                    // Generate data points for the chart
-                    const labels = Array.from({length: numMonths}, (_, i) => `Month ${i + 1}`);
-                    const cumulativeROI = Array.from({length: numMonths}, (_, i) =>
-                        (Total_ROI * (i + 1)) - C_build);
-                    const cumulativeCosts = Array.from({length: numMonths}, (_, i) =>
-                        Solution_Cost * (i + 1) + C_build);
-                    const cumulativeBenefits = Array.from({length: numMonths}, (_, i) =>
-                        (Total_ROI + Solution_Cost) * (i + 1));
+        function updateROICharts(metrics, inputs) {
+            const months = 12;
+            const labels = Array.from({length: months + 1}, (_, i) => `Month ${i}`);
 
-                    // Create new chart
-                    roiChart = new Chart(canvas, {
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [
-                                {
-                                    label: 'Net ROI',
-                                    data: cumulativeROI,
-                                    borderColor: 'rgb(75, 192, 192)',
-                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                    fill: true,
-                                    tension: 0.1
-                                },
-                                {
-                                    label: 'Total Costs',
-                                    data: cumulativeCosts,
-                                    borderColor: 'rgb(255, 99, 132)',
-                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                                    fill: true,
-                                    tension: 0.1
-                                },
-                                {
-                                    label: 'Total Benefits',
-                                    data: cumulativeBenefits,
-                                    borderColor: 'rgb(54, 162, 235)',
-                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                    fill: true,
-                                    tension: 0.1
-                                }
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
+            const roiData = labels.map((_, i) => {
+                if (i === 0) return -metrics.buildCost;
+                return -metrics.buildCost + (metrics.totalMonthlyROI * i);
+            });
+
+            const benefitData = labels.map((_, i) => {
+                if (i === 0) return 0;
+                return (metrics.monthlyBenefit * inputs.numberOfUsers) * i;
+            });
+
+            const costData = labels.map((_, i) => {
+                if (i === 0) return metrics.buildCost;
+                return metrics.buildCost + ((metrics.totalMonthlyCost * inputs.numberOfUsers + inputs.fixedCost) * i);
+            });
+
+            if (!roiChart) {
+                const ctx = document.getElementById('roiChart').getContext('2d');
+                roiChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Net ROI',
+                                data: roiData,
+                                borderColor: '#28a745',
+                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                tension: 0.1,
+                                fill: true
+                            },
+                            {
+                                label: 'Total Benefits',
+                                data: benefitData,
+                                borderColor: '#007bff',
+                                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                                tension: 0.1,
+                                fill: true
+                            },
+                            {
+                                label: 'Total Costs',
+                                data: costData,
+                                borderColor: '#dc3545',
+                                backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                                tension: 0.1,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Cumulative ROI, Costs, and Benefits Over Time'
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return context.dataset.label + ': €' +
-                                                context.raw.toLocaleString('en-US', {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2
-                                                });
-                                        }
-                                    }
+                                    text: 'Amount (€)'
                                 }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top'
                             },
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return '€' + value.toLocaleString('en-US', {
-                                                minimumFractionDigits: 0,
-                                                maximumFractionDigits: 0
-                                            });
-                                        }
-                                    }
-                                }
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
                             }
                         }
-                    });
-                } catch (error) {
-                    console.error("Error updating chart:", error);
-                }
-            }
-
-            function getGradient(ctx, color) {
-                var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-                if (color === "green") {
-                    gradient.addColorStop(0, "rgba(0, 128, 0, 0.5)");
-                    gradient.addColorStop(1, "rgba(0, 128, 0, 0)");
-                } else if (color === "red") {
-                    gradient.addColorStop(0, "rgba(255, 0, 0, 0.5)");
-                    gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
-                } else if (color === "blue") {
-                    gradient.addColorStop(0, "rgba(0, 0, 255, 0.5)");
-                    gradient.addColorStop(1, "rgba(0, 0, 255, 0)");
-                }
-                return gradient;
-            }
-
-            function updateRecommendations(ROI_u, N_u_min, BreakEven_Months) {
-                const costRecs = document.getElementById('costRecommendations');
-                const scalingRecs = document.getElementById('scalingRecommendations');
-
-                costRecs.innerHTML = '';
-                scalingRecs.innerHTML = '';
-
-                // Cost optimization recommendations
-                if (ROI_u < 0) {
-                    costRecs.innerHTML += `
-                        <li class="text-danger">Current ROI per user is negative (${formatCurrency(ROI_u)})</li>
-                        <li>Consider increasing time savings or reducing operational costs</li>
-                    `;
-                } else {
-                    costRecs.innerHTML += `
-                        <li class="text-success">Positive ROI per user (${formatCurrency(ROI_u)})</li>
-                        <li>Current setup is profitable</li>
-                    `;
-                }
-
-                // Scaling recommendations
-                if (N_u_min > 0) {
-                    scalingRecs.innerHTML += `
-                        <li>Minimum users needed: <strong>${N_u_min}</strong></li>
-                        <li>Break-even in: <strong>${BreakEven_Months.toFixed(1)} months</strong></li>
-                    `;
-                }
-
-                // Add animation
-                document.querySelectorAll('.recommendation-item').forEach(item => {
-                    item.classList.add('slide-in');
-                    setTimeout(() => item.classList.remove('slide-in'), 500);
-                });
-            }
-
-            function updateSliderProgress(slider) {
-                const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-                slider.style.background = `linear-gradient(to right, #007bff ${value}%, #dee2e6 ${value}%)`;
-
-                // Update value display
-                const valueDisplay = document.getElementById(slider.id + "Value");
-                if (valueDisplay) {
-                    valueDisplay.textContent = slider.value;
-                    valueDisplay.style.left = `${value}%`;
-                }
-            }
-
-            // Ensure the DOM is fully loaded before running calculations
-            document.addEventListener("DOMContentLoaded", function() {
-                // Add event listeners for all inputs that affect break-even analysis
-                const inputIds = [
-                    "numberOfUsers",
-                    "timeSaved",
-                    "valuePerHour",
-                    "queriesPerDay",
-                    "workingDays",
-                    "costPerQuery",
-                    "fixedCost",
-                    "buildDays",
-                    "costPerDay",
-                    "totalBuildCost",
-                    "buildCostToggle"
-                ];
-
-                inputIds.forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.addEventListener("input", function() {
-                            if (this.type === "range") {
-                                updateSliderProgress(this);
-                            }
-                            calculateROI();
-                            updateBreakEvenAnalysis(); // Add this line to update break-even analysis
-                        });
                     }
                 });
+            } else {
+                roiChart.data.datasets[0].data = roiData;
+                roiChart.data.datasets[1].data = benefitData;
+                roiChart.data.datasets[2].data = costData;
+                roiChart.update();
+            }
+        }
 
-                    // Initial calculations
-                    calculateROI();
-                    updateBreakEvenAnalysis();
-                });
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners to all input fields
+            const inputIds = [
+                "numberOfUsers", "timeSaved", "valuePerHour", "queriesPerDay",
+                "workingDays", "costPerQuery", "fixedCost", "buildDays",
+                "costPerDay", "totalBuildCost", "buildCostToggle"
+            ];
 
-                function updateUsageMetrics() {
-                    try {
-                        // Get current values
-                        const numberOfUsers = parseInt(document.getElementById("numberOfUsers")?.value || 0);
-                        const workingDays = parseInt(document.getElementById("workingDays")?.value || 22);
-
-                        // Calculate realistic metrics
-                        const dailyActiveUsers = Math.ceil(numberOfUsers * 0.35); // 35% daily active users
-                        const queriesPerSession = 2;
-                        const sessionsPerDay = 1;
-                        const avgQueriesPerDay = queriesPerSession * sessionsPerDay;
-                        const monthlyActiveDays = Math.ceil(workingDays * 0.7); // 70% of working days
-                        const monthlyQueries = monthlyActiveDays * avgQueriesPerDay;
-
-                        // Update UI elements
-                        const safeUpdateElement = (id, value) => {
-                            const element = document.getElementById(id);
-                            if (element) element.textContent = value;
-                        };
-
-                        safeUpdateElement("totalActiveUsers", numberOfUsers);
-                        safeUpdateElement("dailyActiveUsers", `${dailyActiveUsers-5}-${dailyActiveUsers}`);
-                        safeUpdateElement("avgQueriesPerDay", avgQueriesPerDay);
-                        safeUpdateElement("monthlyQueries", `${monthlyQueries-100}-${monthlyQueries}`);
-                        safeUpdateElement("monthlyActiveDays", `${monthlyActiveDays-2}-${monthlyActiveDays}`);
-                        safeUpdateElement("monthlyUsageRate", "70%");
-
-                        // Update progress bar
-                        const progressBar = document.querySelector('.progress-bar');
-                        if (progressBar) {
-                            progressBar.style.width = '35%';
-                        }
-
-                    } catch (error) {
-                        console.error("Error in updateUsageMetrics:", error);
-                    }
+            inputIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', calculateROI);
                 }
+            });
 
-                function updateBreakEvenAnalysis() {
-                    try {
-                        // Get all current input values
-                        const inputs = {
-                            numberOfUsers: parseInt(document.getElementById("numberOfUsers").value),
-                            timeSaved: parseFloat(document.getElementById("timeSaved").value),
-                            valuePerHour: parseFloat(document.getElementById("valuePerHour").value),
-                            queriesPerDay: parseFloat(document.getElementById("queriesPerDay").value),
-                            workingDays: parseInt(document.getElementById("workingDays").value),
-                            costPerQuery: parseFloat(document.getElementById("costPerQuery").value),
-                            fixedCost: parseFloat(document.getElementById("fixedCost").value),
-                            buildCost: document.getElementById("buildCostToggle").checked ?
-                                parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
-                                parseFloat(document.getElementById("totalBuildCost").value)
-                        };
+            // Add build cost toggle handler
+            document.getElementById("buildCostToggle").addEventListener('change', function() {
+                document.getElementById("calculatedBuildCost").style.display = this.checked ? "flex" : "none";
+                document.getElementById("customBuildCost").style.display = this.checked ? "none" : "flex";
+                calculateROI();
+            });
 
-                        // Calculate key metrics
-                        const metrics = calculateBreakEvenMetrics(inputs);
-
-                        // Update the UI with new calculations
-                        updateBreakEvenUI(metrics, inputs);
-
-                        // Generate and update recommendations
-                        updateBreakEvenRecommendations(metrics, inputs);
-
-                    } catch (error) {
-                        console.error("Error in updateBreakEvenAnalysis:", error);
-                    }
-                }
-
-                function calculateBreakEvenMetrics(inputs) {
-                    // Monthly value generated per user
-                    const monthlyValuePerUser = inputs.timeSaved * inputs.valuePerHour * inputs.workingDays;
-
-                    // Monthly costs per user
-                    const monthlyQueriesPerUser = inputs.queriesPerDay * inputs.workingDays;
-                    const monthlyVariableCost = monthlyQueriesPerUser * inputs.costPerQuery;
-                    const monthlyFixedCostPerUser = inputs.fixedCost / inputs.numberOfUsers;
-
-                    // Total monthly cost per user
-                    const totalMonthlyCostPerUser = monthlyVariableCost + monthlyFixedCostPerUser;
-
-                    // Net value per user per month
-                    const netValuePerUser = monthlyValuePerUser - totalMonthlyCostPerUser;
-
-                    // Calculate minimum users needed for break-even
-                    const minUsersForBreakEven = Math.ceil(inputs.fixedCost / (netValuePerUser - monthlyVariableCost));
-
-                    // Calculate break-even period
-                    const monthlyNetProfit = (netValuePerUser * inputs.numberOfUsers) - inputs.fixedCost;
-                    const breakEvenMonths = monthlyNetProfit > 0 ? Math.ceil(inputs.buildCost / monthlyNetProfit) : Infinity;
-
-                    return {
-                        minUsersNeeded: minUsersForBreakEven,
-                        breakEvenMonths: breakEvenMonths,
-                        monthlyProfit: monthlyNetProfit,
-                        valuePerUser: monthlyValuePerUser,
-                        costPerUser: totalMonthlyCostPerUser,
-                        queriesPerMonth: monthlyQueriesPerUser,
-                        minQueriesPerUser: Math.ceil(monthlyQueriesPerUser * (minUsersForBreakEven / inputs.numberOfUsers))
-                    };
-                }
-
-                function updateBreakEvenUI(metrics, inputs) {
-                    // Helper function for safe element updates
-                    const updateElement = (id, value, formatter = (x) => x) => {
-                        const element = document.getElementById(id);
-                        if (element) element.textContent = formatter(value);
-                    };
-
-                    // Update monthly requirements
-                    updateElement("usersNeededPerMonth", metrics.minUsersNeeded);
-                    updateElement("queriesNeededPerMonth", metrics.minQueriesPerUser * metrics.minUsersNeeded);
-                    updateElement("queriesPerUserMonth", metrics.minQueriesPerUser);
-
-                    // Update daily distribution
-                    updateElement("usersNeededPerDay", Math.ceil(metrics.minUsersNeeded / inputs.workingDays));
-                    updateElement("queriesNeededPerDay", metrics.dailyQueriesNeeded);
-
-                    // Update progress bars
-                    const userProgress = (metrics.minUsersNeeded / inputs.numberOfUsers) * 100;
-                    const queryProgress = (metrics.minQueriesPerUser / metrics.queriesPerMonth) * 100;
-
-                    const userProgressBar = document.getElementById("userProgressBar");
-                    const queryProgressBar = document.getElementById("queryProgressBar");
-
-                    if (userProgressBar) userProgressBar.style.width = `${Math.min(userProgress, 100)}%`;
-                    if (queryProgressBar) queryProgressBar.style.width = `${Math.min(queryProgress, 100)}%`;
-
-                    // Update status indicators
-                    updateBreakEvenStatus(metrics, inputs);
-                }
-
-                function updateBreakEvenStatus(metrics, inputs) {
-                    const statusContainer = document.getElementById("breakEvenStatus");
-                    if (!statusContainer) return;
-
-                    let statusHTML = '';
-                    const isOnTrack = metrics.minUsersNeeded <= inputs.numberOfUsers;
-
-                    statusHTML = `
-                        <div class="alert ${isOnTrack ? 'alert-success' : 'alert-warning'} mb-4">
-                            <h6 class="alert-heading">
-                                <i class="bi ${isOnTrack ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i>
-                                ${isOnTrack ? 'On Track to Break Even' : 'Action Needed'}
-                            </h6>
-                            <p class="mb-0">
-                                ${isOnTrack ?
-                                    `You'll reach break-even in approximately ${metrics.breakEvenMonths} months at current usage rates.` :
-                                    `You need ${metrics.minUsersNeeded - inputs.numberOfUsers} more active users to reach break-even.`
-                                }
-                            </p>
-                        </div>
-                    `;
-
-                    statusContainer.innerHTML = statusHTML;
-                }
-
-                function updateBreakEvenRecommendations(metrics, inputs) {
-                    const container = document.getElementById("breakEvenRecommendations");
-                    if (!container) return;
-
-                    const recommendations = generateBreakEvenRecommendations(metrics, inputs);
-                    container.innerHTML = recommendations;
-                }
-
-                function generateBreakEvenRecommendations(metrics, inputs) {
-                    const isUserShortfall = metrics.minUsersNeeded > inputs.numberOfUsers;
-                    const isQueryShortfall = metrics.minQueriesPerUser > metrics.queriesPerMonth;
-
-                    return `
-                        <div class="col-md-4">
-                            <div class="card h-100 ${isUserShortfall ? 'border-warning' : 'border-success'}">
-                                <div class="card-body">
-                                    <h6 class="card-title ${isUserShortfall ? 'text-warning' : 'text-success'}">
-                                        <i class="bi ${isUserShortfall ? 'bi-people-fill' : 'bi-check-circle'}"></i>
-                                        User Adoption
-                                    </h6>
-                                    <p class="card-text small">
-                                        ${isUserShortfall ?
-                                            `Need ${metrics.minUsersNeeded - inputs.numberOfUsers} more users for break-even. Focus on user onboarding.` :
-                                            `Current user base of ${inputs.numberOfUsers} exceeds break-even requirement of ${metrics.minUsersNeeded}.`
-                                        }
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-title text-primary">
-                                        <i class="bi bi-graph-up"></i>
-                                        Usage Optimization
-                                    </h6>
-                                    <p class="card-text small">
-                                        Optimal usage: ${metrics.minQueriesPerUser} queries/user/month
-                                        <br>
-                                        Current: ${metrics.queriesPerMonth} queries/user/month
-                                        <br>
-                                        <small class="text-muted">
-                                            ${Math.ceil(metrics.minQueriesPerUser/inputs.workingDays)} queries per working day
-                                        </small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-title text-info">
-                                        <i class="bi bi-calendar-check"></i>
-                                        Break-Even Timeline
-                                    </h6>
-                                    <p class="card-text small">
-                                        Expected break-even in ${metrics.breakEvenMonths} months
-                                        <br>
-                                        Monthly profit: €${metrics.monthlyProfit.toFixed(2)}
-                                        <br>
-                                        <small class="text-muted">
-                                            Based on current usage patterns
-                                        </small>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            </script>
-        </body>
-    </html>
+            // Initial calculation
+            calculateROI();
+        });
+    </script>
+</body>
+</html>

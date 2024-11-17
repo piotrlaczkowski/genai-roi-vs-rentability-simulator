@@ -1,0 +1,56 @@
+<div class="detailed-results accordion-item">
+    <h2 class="accordion-header" id="headingDetails">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseDetails" aria-expanded="false" aria-controls="collapseDetails">
+            <i class="bi bi-list-check"></i> Detailed Analysis
+        </button>
+    </h2>
+    <div id="collapseDetails" class="accordion-collapse collapse" aria-labelledby="headingDetails"
+        data-bs-parent="#resultsAccordion">
+        <div class="accordion-body">
+            <div class="row g-4">
+                <!-- Benefits Analysis -->
+                <div class="col-md-6">
+                    <div class="metric-card h-100 p-4">
+                        <h6 class="text-primary mb-3">Benefits Analysis</h6>
+                        <div class="metric-list">
+                            <div class="metric-item d-flex justify-content-between">
+                                <span>Benefit per User:</span>
+                                <span id="benefitPerUser" class="badge bg-primary">€0</span>
+                            </div>
+                            <div class="metric-item d-flex justify-content-between">
+                                <span>Monthly Queries:</span>
+                                <span id="queriesPerMonth" class="badge bg-secondary">0</span>
+                            </div>
+                            <div class="metric-item d-flex justify-content-between">
+                                <span>Total Monthly Value:</span>
+                                <span id="totalMonthlyValue" class="badge bg-success">€0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cost Analysis -->
+                <div class="col-md-6">
+                    <div class="metric-card h-100 p-4">
+                        <h6 class="text-primary mb-3">Cost Analysis</h6>
+                        <div class="metric-list">
+                            <div class="metric-item d-flex justify-content-between">
+                                <span>Variable Cost per User:</span>
+                                <span id="variableCostPerUser" class="badge bg-danger">€0</span>
+                            </div>
+                            <div class="metric-item d-flex justify-content-between">
+                                <span>Fixed Cost per User:</span>
+                                <span id="fixedCostPerUser" class="badge bg-danger">€0</span>
+                            </div>
+                            <div class="metric-item d-flex justify-content-between">
+                                <span>Total Cost per User:</span>
+                                <span id="totalCostPerUser" class="badge bg-danger">€0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
