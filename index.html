@@ -500,66 +500,57 @@
                                 </div>
                                 <!-- Queries per User per Day -->
                                 <div class="mb-3">
-                                    <label
-                                        for="queriesPerDay"
-                                        class="form-label slider-label"
-                                        >Queries per User per Day:
-                                        <span id="queriesPerDayValue"
-                                            >10</span
-                                        ></label
-                                    >
-                                    <input
-                                        type="range"
-                                        class="form-range"
-                                        min="0"
-                                        max="50"
-                                        step="1"
-                                        id="queriesPerDay"
-                                        value="10"
-                                        onchange="updateSlider('queriesPerDay'); calculateROI();"
-                                    />
+                                    <label for="queriesPerDay" class="form-label slider-label">
+                                        Queries per User per Day: <span id="queriesPerDayValue">10</span>
+                                    </label>
+                                    <div class="custom-range-container">
+                                        <input type="range"
+                                            class="custom-range"
+                                            min="0"
+                                            max="50"
+                                            step="1"
+                                            id="queriesPerDay"
+                                            value="10"
+                                            onchange="updateSlider('queriesPerDay'); calculateROI();"
+                                            oninput="updateSliderProgress(this)"
+                                        />
+                                    </div>
                                 </div>
                                 <!-- Number of Users -->
                                 <div class="mb-3">
-                                    <label
-                                        for="numberOfUsers"
-                                        class="form-label slider-label"
-                                        >Number of Users:
-                                        <span id="numberOfUsersValue"
-                                            >50</span
-                                        ></label
-                                    >
-                                    <input
-                                        type="range"
-                                        class="form-range"
-                                        min="1"
-                                        max="500"
-                                        step="1"
-                                        id="numberOfUsers"
-                                        value="50"
-                                        onchange="updateSlider('numberOfUsers'); calculateROI();"
-                                    />
+                                    <label for="numberOfUsers" class="form-label slider-label">
+                                        Number of Users: <span id="numberOfUsersValue">50</span>
+                                    </label>
+                                    <div class="custom-range-container">
+                                        <input type="range"
+                                            class="custom-range"
+                                            min="1"
+                                            max="500"
+                                            step="1"
+                                            id="numberOfUsers"
+                                            value="50"
+                                            onchange="updateSlider('numberOfUsers'); calculateROI();"
+                                            oninput="updateSliderProgress(this)"
+                                        />
+                                    </div>
                                 </div>
-                                <!-- Months -->
+                                <!-- Number of Months -->
                                 <div class="mb-3">
-                                    <label
-                                        for="numberOfMonths"
-                                        class="form-label slider-label"
-                                        >Number of Months:
-                                        <span id="numberOfMonthsValue"
-                                            >12</span
-                                        ></label
-                                    >
-                                    <input
-                                        type="range"
-                                        class="form-range"
-                                        min="1"
-                                        max="36"
-                                        step="1"
-                                        id="numberOfMonths"
-                                        value="12"
-                                        onchange="updateSlider('numberOfMonths'); calculateROI();"
-                                    />
+                                    <label for="numberOfMonths" class="form-label slider-label">
+                                        Number of Months: <span id="numberOfMonthsValue">12</span>
+                                    </label>
+                                    <div class="custom-range-container">
+                                        <input type="range"
+                                            class="custom-range"
+                                            min="1"
+                                            max="36"
+                                            step="1"
+                                            id="numberOfMonths"
+                                            value="12"
+                                            onchange="updateSlider('numberOfMonths'); calculateROI();"
+                                            oninput="updateSliderProgress(this)"
+                                        />
+                                    </div>
                                 </div>
                                 <!-- Working Days per Month -->
                                 <div class="mb-3">
