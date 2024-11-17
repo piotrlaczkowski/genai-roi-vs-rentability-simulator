@@ -1074,54 +1074,100 @@
                                     data-bs-parent="#resultsAccordion"
                                 >
                                     <div class="accordion-body">
-                                        <p>
-                                            <strong
-                                                >Users Needed per Month:</strong
-                                            >
-                                            <span
-                                                id="usersNeededPerMonth"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries Needed per
-                                                Month:</strong
-                                            >
-                                            <span
-                                                id="queriesNeededPerMonth"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Users Needed per Week:</strong
-                                            >
-                                            <span
-                                                id="usersNeededPerWeek"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries Needed per
-                                                Week:</strong
-                                            >
-                                            <span
-                                                id="queriesNeededPerWeek"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Users Needed per Day:</strong
-                                            >
-                                            <span id="usersNeededPerDay"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries Needed per Day:</strong
-                                            >
-                                            <span
-                                                id="queriesNeededPerDay"
-                                            ></span>
-                                        </p>
+                                        <!-- Status Overview -->
+                                        <div class="alert alert-info mb-4">
+                                            <h6 class="alert-heading">
+                                                <i class="bi bi-people-circle"></i> Usage Requirements Analysis
+                                            </h6>
+                                            <p class="mb-0">Detailed breakdown of required user activity and query volumes for optimal ROI.</p>
+                                        </div>
+
+                                        <!-- Monthly Metrics -->
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="text-primary mb-0">
+                                                            <i class="bi bi-calendar-month"></i> Monthly Requirements
+                                                        </h6>
+                                                        <span class="badge bg-primary">Per Month</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span>Users Needed:</span>
+                                                        <span id="usersNeededPerMonth" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="monthlyUsersProgress"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span>Queries Required:</span>
+                                                        <span id="queriesNeededPerMonth" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div class="progress-bar" id="monthlyQueriesProgress"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="text-primary mb-0">
+                                                            <i class="bi bi-calendar-week"></i> Weekly Requirements
+                                                        </h6>
+                                                        <span class="badge bg-primary">Per Week</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span>Users Needed:</span>
+                                                        <span id="usersNeededPerWeek" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="weeklyUsersProgress"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <span>Queries Required:</span>
+                                                        <span id="queriesNeededPerWeek" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div class="progress-bar" id="weeklyQueriesProgress"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Daily Metrics -->
+                                        <div class="row g-4">
+                                            <div class="col-12">
+                                                <div class="metric-card p-4 border rounded bg-white">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="text-primary mb-0">
+                                                            <i class="bi bi-calendar-day"></i> Daily Distribution
+                                                        </h6>
+                                                        <span class="badge bg-primary">Per Working Day</span>
+                                                    </div>
+                                                    <div class="row g-4">
+                                                        <div class="col-md-6">
+                                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                <span>Users Needed:</span>
+                                                                <span id="usersNeededPerDay" class="h5 mb-0"></span>
+                                                            </div>
+                                                            <div class="progress mb-3" style="height: 8px;">
+                                                                <div class="progress-bar" id="dailyUsersProgress"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                                <span>Queries Required:</span>
+                                                                <span id="queriesNeededPerDay" class="h5 mb-0"></span>
+                                                            </div>
+                                                            <div class="progress mb-3" style="height: 8px;">
+                                                                <div class="progress-bar" id="dailyQueriesProgress"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1151,83 +1197,120 @@
                                     data-bs-parent="#resultsAccordion"
                                 >
                                     <div class="accordion-body">
-                                        <p>
-                                            <strong
-                                                >Benefit per User
-                                                (B<sub>u</sub>):</strong
-                                            >
-                                            <span id="benefitPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Queries per User per Month
-                                                (Q<sub>u</sub>):</strong
-                                            >
-                                            <span id="queriesPerMonth"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Variable Cost per User
-                                                (C<sub>var_u</sub>):</strong
-                                            >
-                                            <span
-                                                id="variableCostPerUser"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Fixed Cost per User
-                                                (C<sub>fixed_u</sub>):</strong
-                                            >
-                                            <span id="fixedCostPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Total Cost per User
-                                                (C<sub>u</sub>):</strong
-                                            >
-                                            <span id="totalCostPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >ROI per User
-                                                (ROI<sub>u</sub>):</strong
-                                            >
-                                            <span id="roiPerUser"></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Total ROI per Month:</strong
-                                            >
-                                            <span id="totalROI"></span>
-                                        </p>
-                                        <p>
-                                            <strong>Total Build Cost:</strong>
-                                            <span
-                                                id="totalBuildCostDetailed"
-                                            ></span>
-                                        </p>
-                                        <p>
-                                            <strong
-                                                >Net ROI over
-                                                <span
-                                                    id="totalMonthsDetail"
-                                                ></span>
-                                                Months:</strong
-                                            >
-                                            <span id="netROI"></span>
-                                        </p>
-                                        <p>
-                                            <strong>Break-Even Point:</strong>
-                                            <span
-                                                id="breakEvenPointDetailed"
-                                            ></span>
-                                            Months
-                                        </p>
-                                        <p>
-                                            <strong>Benefit per User Minimum:</strong>
-                                            <span id="benefitPerUserMin"></span>
-                                        </p>
+                                        <!-- Status Overview -->
+                                        <div class="alert alert-info mb-4">
+                                            <h6 class="alert-heading">
+                                                <i class="bi bi-graph-up"></i> Detailed Performance Metrics
+                                            </h6>
+                                            <p class="mb-0">Comprehensive breakdown of all ROI components and calculations.</p>
+                                        </div>
+
+                                        <!-- Value Generation Metrics -->
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-4">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="text-primary mb-0">
+                                                            <i class="bi bi-cash-stack"></i> Value Generation
+                                                        </h6>
+                                                        <span class="badge bg-primary">Per User</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Monthly Value:</span>
+                                                        <span id="benefitPerUser" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="valueProgress"></div>
+                                                    </div>
+                                                    <small class="text-muted">Based on time saved and hourly rate</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="text-primary mb-0">
+                                                            <i class="bi bi-chat-dots"></i> Usage Metrics
+                                                        </h6>
+                                                        <span class="badge bg-primary">Monthly</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Queries:</span>
+                                                        <span id="queriesPerMonth" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="queriesProgress"></div>
+                                                    </div>
+                                                    <small class="text-muted">Total queries per user per month</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="text-primary mb-0">
+                                                            <i class="bi bi-currency-euro"></i> Cost Analysis
+                                                        </h6>
+                                                        <span class="badge bg-primary">Per User</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Total Cost:</span>
+                                                        <span id="totalCostPerUser" class="h5 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="costProgress"></div>
+                                                    </div>
+                                                    <small class="text-muted">Combined fixed and variable costs</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Cost Breakdown -->
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <h6 class="text-primary mb-3">
+                                                        <i class="bi bi-pie-chart"></i> Cost Breakdown
+                                                    </h6>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Variable Cost:</span>
+                                                        <span id="variableCostPerUser" class="h6 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="variableCostProgress"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Fixed Cost:</span>
+                                                        <span id="fixedCostPerUser" class="h6 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="fixedCostProgress"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="metric-card h-100 p-4 border rounded bg-white">
+                                                    <h6 class="text-primary mb-3">
+                                                        <i class="bi bi-graph-up-arrow"></i> ROI Metrics
+                                                    </h6>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>ROI per User:</span>
+                                                        <span id="roiPerUser" class="h6 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="roiProgress"></div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Total ROI:</span>
+                                                        <span id="totalROI" class="h6 mb-0"></span>
+                                                    </div>
+                                                    <div class="progress mb-3" style="height: 8px;">
+                                                        <div class="progress-bar" id="totalRoiProgress"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1724,7 +1807,22 @@
                     const minUsersNeeded = Math.ceil(inputs.fixedCost / (monthlyValuePerUser - monthlyVariableCost));
                     const minBenefitPerUser = totalMonthlyCostPerUser * 1.2; // 20% margin
 
-                    // Update UI elements
+                    // Create metrics object
+                    const metrics = {
+                        monthlyValuePerUser,
+                        monthlyQueriesPerUser,
+                        monthlyVariableCost,
+                        monthlyFixedCostPerUser,
+                        totalMonthlyCostPerUser,
+                        monthlyROIPerUser,
+                        totalMonthlyROI,
+                        breakEvenMonths,
+                        minUsersNeeded,
+                        minBenefitPerUser,
+                        minQueriesPerUser: monthlyQueriesPerUser
+                    };
+
+                    // Update UI sections
                     updateSummarySection({
                         totalMonthlyROI,
                         monthlyROIPerUser,
@@ -1735,6 +1833,12 @@
                         minUsersNeeded,
                         minBenefitPerUser
                     });
+
+                    // Update active users section with the metrics
+                    updateActiveUsersSection(metrics, inputs);
+
+                    // Update detailed results
+                    updateDetailedResults(metrics, inputs);
 
                     // Update chart
                     const monthlyTotalCost = (monthlyVariableCost * inputs.numberOfUsers) + inputs.fixedCost;
@@ -1750,6 +1854,9 @@
 
                     // Update recommendations
                     updateRecommendations(monthlyROIPerUser, minUsersNeeded, breakEvenMonths);
+
+                    // Update break-even analysis
+                    updateBreakEvenAnalysis();
 
                 } catch (error) {
                     console.error("Error in calculateROI:", error);
@@ -1786,25 +1893,31 @@
                 updateProgressBar("roiProgressBar", data.totalMonthlyROI, data.totalMonthlyROI * 1.5);
                 updateProgressBar("valueProgressBar", data.monthlyValuePerUser, data.monthlyValuePerUser * 1.5);
                 updateProgressBar("breakEvenProgressBar", data.inputs.numberOfUsers, data.minUsersNeeded * 1.5);
+
+                // Update build cost and operating cost
+                updateElement("totalBuildCostDisplay", data.inputs.buildCost, '€');
+                updateElement("solutionCostPerMonth",
+                    (data.inputs.fixedCost + (data.inputs.queriesPerDay * data.inputs.workingDays * data.inputs.numberOfUsers * data.inputs.costPerQuery)),
+                    '€');
             }
 
-            function updateDetailedResults(data) {
+            function updateDetailedResults(metrics, inputs) {
                 try {
                     // Create metrics data structure
-                    const metrics = [
+                    const metricsData = [
                         {
                             category: "Value Generation",
                             items: [
                                 {
                                     label: "Monthly Value per User",
-                                    value: data.monthlyValuePerUser,
+                                    value: metrics.monthlyValuePerUser,
                                     id: "benefitPerUser",
                                     icon: "bi-graph-up-arrow",
                                     tooltip: "Total value generated per user each month"
                                 },
                                 {
                                     label: "Queries per Month",
-                                    value: Math.round(data.inputs.queriesPerDay * data.inputs.workingDays),
+                                    value: Math.round(inputs.queriesPerDay * inputs.workingDays),
                                     id: "queriesPerMonth",
                                     icon: "bi-chat-dots",
                                     tooltip: "Total number of queries per user per month",
@@ -1817,21 +1930,21 @@
                             items: [
                                 {
                                     label: "Variable Cost per User",
-                                    value: data.monthlyVariableCost,
+                                    value: metrics.monthlyVariableCost,
                                     id: "variableCostPerUser",
                                     icon: "bi-currency-euro",
                                     tooltip: "Monthly variable costs per user"
                                 },
                                 {
                                     label: "Fixed Cost per User",
-                                    value: data.monthlyFixedCostPerUser,
+                                    value: metrics.monthlyFixedCostPerUser,
                                     id: "fixedCostPerUser",
                                     icon: "bi-cash-stack",
                                     tooltip: "Monthly fixed costs distributed per user"
                                 },
                                 {
                                     label: "Total Cost per User",
-                                    value: data.totalMonthlyCostPerUser,
+                                    value: metrics.totalMonthlyCostPerUser,
                                     id: "totalCostPerUser",
                                     icon: "bi-cash-coin",
                                     tooltip: "Total monthly cost per user"
@@ -1843,21 +1956,21 @@
                             items: [
                                 {
                                     label: "ROI per User",
-                                    value: data.monthlyROIPerUser,
+                                    value: metrics.monthlyROIPerUser,
                                     id: "roiPerUser",
                                     icon: "bi-person-check",
                                     tooltip: "Monthly return on investment per user"
                                 },
                                 {
                                     label: "Total Monthly ROI",
-                                    value: data.totalMonthlyROI,
+                                    value: metrics.totalMonthlyROI,
                                     id: "totalROI",
                                     icon: "bi-graph-up",
                                     tooltip: "Total monthly return on investment"
                                 },
                                 {
                                     label: "Build Cost",
-                                    value: data.inputs.buildCost,
+                                    value: inputs.buildCost,
                                     id: "totalBuildCostDetailed",
                                     icon: "bi-tools",
                                     tooltip: "Total initial build cost"
@@ -1869,14 +1982,14 @@
                             items: [
                                 {
                                     label: "Net ROI",
-                                    value: (data.totalMonthlyROI * data.inputs.numberOfMonths) - data.inputs.buildCost,
+                                    value: (metrics.totalMonthlyROI * inputs.numberOfMonths) - inputs.buildCost,
                                     id: "netROI",
                                     icon: "bi-calculator",
-                                    tooltip: `Net ROI over ${data.inputs.numberOfMonths} months`
+                                    tooltip: `Net ROI over ${inputs.numberOfMonths} months`
                                 },
                                 {
                                     label: "Break-Even Point",
-                                    value: data.breakEvenMonths,
+                                    value: metrics.breakEvenMonths,
                                     id: "breakEvenPointDetailed",
                                     icon: "bi-calendar-check",
                                     tooltip: "Months until break-even",
@@ -1884,7 +1997,7 @@
                                 },
                                 {
                                     label: "Minimum Benefit Required",
-                                    value: data.minBenefitPerUser,
+                                    value: metrics.minBenefitPerUser,
                                     id: "benefitPerUserMin",
                                     icon: "bi-arrow-up-circle",
                                     tooltip: "Minimum monthly benefit needed per user"
@@ -1895,10 +2008,14 @@
 
                     // Get the detailed results container
                     const container = document.getElementById('collapseDetailedResults').querySelector('.accordion-body');
+                    if (!container) {
+                        throw new Error('Detailed results container not found');
+                    }
+
                     container.innerHTML = ''; // Clear existing content
 
                     // Create the new detailed results UI
-                    metrics.forEach(category => {
+                    metricsData.forEach(category => {
                         const categorySection = document.createElement('div');
                         categorySection.className = 'metric-category mb-4';
 
@@ -2109,9 +2226,9 @@
                 }
             }
 
-            // Ensure the DOM is fully loaded before running calculations
+            // Make sure this is defined before calculateROI is called
             document.addEventListener("DOMContentLoaded", function() {
-                // Add event listeners for all inputs that affect break-even analysis
+                // Add event listeners for all inputs
                 const inputIds = [
                     "numberOfUsers",
                     "timeSaved",
@@ -2131,250 +2248,248 @@
                 inputIds.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) {
-                        element.addEventListener("input", function() {
-                            if (this.type === "range") {
+                        element.addEventListener("input", calculateROI);
+                        if (element.type === "range") {
+                            element.addEventListener("input", function() {
                                 updateSliderProgress(this);
-                            }
-                            calculateROI();
-                            updateBreakEvenAnalysis(); // Add this line to update break-even analysis
-                        });
-                    }
-                });
-
-                    // Initial calculations
-                    calculateROI();
-                    updateBreakEvenAnalysis();
-                });
-
-                function updateUsageMetrics() {
-                    try {
-                        // Get current values
-                        const numberOfUsers = parseInt(document.getElementById("numberOfUsers")?.value || 0);
-                        const workingDays = parseInt(document.getElementById("workingDays")?.value || 22);
-
-                        // Calculate realistic metrics
-                        const dailyActiveUsers = Math.ceil(numberOfUsers * 0.35); // 35% daily active users
-                        const queriesPerSession = 2;
-                        const sessionsPerDay = 1;
-                        const avgQueriesPerDay = queriesPerSession * sessionsPerDay;
-                        const monthlyActiveDays = Math.ceil(workingDays * 0.7); // 70% of working days
-                        const monthlyQueries = monthlyActiveDays * avgQueriesPerDay;
-
-                        // Update UI elements
-                        const safeUpdateElement = (id, value) => {
-                            const element = document.getElementById(id);
-                            if (element) element.textContent = value;
-                        };
-
-                        safeUpdateElement("totalActiveUsers", numberOfUsers);
-                        safeUpdateElement("dailyActiveUsers", `${dailyActiveUsers-5}-${dailyActiveUsers}`);
-                        safeUpdateElement("avgQueriesPerDay", avgQueriesPerDay);
-                        safeUpdateElement("monthlyQueries", `${monthlyQueries-100}-${monthlyQueries}`);
-                        safeUpdateElement("monthlyActiveDays", `${monthlyActiveDays-2}-${monthlyActiveDays}`);
-                        safeUpdateElement("monthlyUsageRate", "70%");
-
-                        // Update progress bar
-                        const progressBar = document.querySelector('.progress-bar');
-                        if (progressBar) {
-                            progressBar.style.width = '35%';
+                            });
                         }
-
-                    } catch (error) {
-                        console.error("Error in updateUsageMetrics:", error);
                     }
-                }
+                });
 
-                function updateBreakEvenAnalysis() {
-                    try {
-                        // Get all current input values
-                        const inputs = {
-                            numberOfUsers: parseInt(document.getElementById("numberOfUsers").value),
-                            timeSaved: parseFloat(document.getElementById("timeSaved").value),
-                            valuePerHour: parseFloat(document.getElementById("valuePerHour").value),
-                            queriesPerDay: parseFloat(document.getElementById("queriesPerDay").value),
-                            workingDays: parseInt(document.getElementById("workingDays").value),
-                            costPerQuery: parseFloat(document.getElementById("costPerQuery").value),
-                            fixedCost: parseFloat(document.getElementById("fixedCost").value),
-                            buildCost: document.getElementById("buildCostToggle").checked ?
-                                parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
-                                parseFloat(document.getElementById("totalBuildCost").value),
-                            weeksPerMonth: parseFloat(document.getElementById("weeksPerMonth").value) || 4.3,
-                            numberOfMonths: parseFloat(document.getElementById("numberOfMonths").value) || 12
-                        };
+                // Initial calculation
+                calculateROI();
+            });
 
-                        // Calculate key metrics
-                        const metrics = calculateBreakEvenMetrics(inputs);
+            function updateUsageMetrics() {
+                try {
+                    // Get current values
+                    const numberOfUsers = parseInt(document.getElementById("numberOfUsers")?.value || 0);
+                    const workingDays = parseInt(document.getElementById("workingDays")?.value || 22);
 
-                        // Update the UI with new calculations
-                        updateBreakEvenUI(metrics, inputs);
+                    // Calculate realistic metrics
+                    const dailyActiveUsers = Math.ceil(numberOfUsers * 0.35); // 35% daily active users
+                    const queriesPerSession = 2;
+                    const sessionsPerDay = 1;
+                    const avgQueriesPerDay = queriesPerSession * sessionsPerDay;
+                    const monthlyActiveDays = Math.ceil(workingDays * 0.7); // 70% of working days
+                    const monthlyQueries = monthlyActiveDays * avgQueriesPerDay;
 
-                        // Generate and update recommendations
-                        updateBreakEvenRecommendations(metrics, inputs);
-
-                    } catch (error) {
-                        console.error("Error in updateBreakEvenAnalysis:", error);
-                    }
-                }
-
-                function calculateBreakEvenMetrics(inputs) {
-                    // Monthly value generated per user
-                    const monthlyValuePerUser = inputs.timeSaved * inputs.valuePerHour * inputs.workingDays;
-
-                    // Monthly costs per user
-                    const monthlyQueriesPerUser = inputs.queriesPerDay * inputs.workingDays;
-                    const monthlyVariableCost = monthlyQueriesPerUser * inputs.costPerQuery;
-                    const monthlyFixedCostPerUser = inputs.fixedCost / inputs.numberOfUsers;
-
-                    // Total monthly cost per user
-                    const totalMonthlyCostPerUser = monthlyVariableCost + monthlyFixedCostPerUser;
-
-                    // Net value per user per month
-                    const netValuePerUser = monthlyValuePerUser - totalMonthlyCostPerUser;
-
-                    // Calculate minimum users needed for break-even
-                    const minUsersForBreakEven = Math.ceil(inputs.fixedCost / (netValuePerUser - monthlyVariableCost));
-
-                    // Calculate break-even period
-                    const monthlyNetProfit = (netValuePerUser * inputs.numberOfUsers) - inputs.fixedCost;
-                    const breakEvenMonths = monthlyNetProfit > 0 ? Math.ceil(inputs.buildCost / monthlyNetProfit) : Infinity;
-
-                    return {
-                        minUsersNeeded: minUsersForBreakEven,
-                        breakEvenMonths: breakEvenMonths,
-                        monthlyProfit: monthlyNetProfit,
-                        valuePerUser: monthlyValuePerUser,
-                        costPerUser: totalMonthlyCostPerUser,
-                        queriesPerMonth: monthlyQueriesPerUser,
-                        minQueriesPerUser: Math.ceil(monthlyQueriesPerUser * (minUsersForBreakEven / inputs.numberOfUsers))
-                    };
-                }
-
-                function updateBreakEvenUI(metrics, inputs) {
-                    // Helper function for safe element updates
-                    const updateElement = (id, value, formatter = (x) => x) => {
+                    // Update UI elements
+                    const safeUpdateElement = (id, value) => {
                         const element = document.getElementById(id);
-                        if (element) element.textContent = formatter(value);
+                        if (element) element.textContent = value;
                     };
 
-                    // Update monthly requirements
-                    updateElement("usersNeededPerMonth", metrics.minUsersNeeded);
-                    updateElement("queriesNeededPerMonth", metrics.minQueriesPerUser * metrics.minUsersNeeded);
-                    updateElement("queriesPerUserMonth", metrics.minQueriesPerUser);
+                    safeUpdateElement("totalActiveUsers", numberOfUsers);
+                    safeUpdateElement("dailyActiveUsers", `${dailyActiveUsers-5}-${dailyActiveUsers}`);
+                    safeUpdateElement("avgQueriesPerDay", avgQueriesPerDay);
+                    safeUpdateElement("monthlyQueries", `${monthlyQueries-100}-${monthlyQueries}`);
+                    safeUpdateElement("monthlyActiveDays", `${monthlyActiveDays-2}-${monthlyActiveDays}`);
+                    safeUpdateElement("monthlyUsageRate", "70%");
 
-                    // Update daily distribution
-                    updateElement("usersNeededPerDay", Math.ceil(metrics.minUsersNeeded / inputs.workingDays));
-                    updateElement("queriesNeededPerDay", metrics.dailyQueriesNeeded);
+                    // Update progress bar
+                    const progressBar = document.querySelector('.progress-bar');
+                    if (progressBar) {
+                        progressBar.style.width = '35%';
+                    }
 
-                    // Update progress bars
-                    const userProgress = (metrics.minUsersNeeded / inputs.numberOfUsers) * 100;
-                    const queryProgress = (metrics.minQueriesPerUser / metrics.queriesPerMonth) * 100;
-
-                    const userProgressBar = document.getElementById("userProgressBar");
-                    const queryProgressBar = document.getElementById("queryProgressBar");
-
-                    if (userProgressBar) userProgressBar.style.width = `${Math.min(userProgress, 100)}%`;
-                    if (queryProgressBar) queryProgressBar.style.width = `${Math.min(queryProgress, 100)}%`;
-
-                    // Update status indicators
-                    updateBreakEvenStatus(metrics, inputs);
+                } catch (error) {
+                    console.error("Error in updateUsageMetrics:", error);
                 }
+            }
 
-                function updateBreakEvenStatus(metrics, inputs) {
-                    const statusContainer = document.getElementById("breakEvenStatus");
-                    if (!statusContainer) return;
+            function updateBreakEvenAnalysis() {
+                try {
+                    // Get all current input values
+                    const inputs = {
+                        numberOfUsers: parseInt(document.getElementById("numberOfUsers").value),
+                        timeSaved: parseFloat(document.getElementById("timeSaved").value),
+                        valuePerHour: parseFloat(document.getElementById("valuePerHour").value),
+                        queriesPerDay: parseFloat(document.getElementById("queriesPerDay").value),
+                        workingDays: parseInt(document.getElementById("workingDays").value),
+                        costPerQuery: parseFloat(document.getElementById("costPerQuery").value),
+                        fixedCost: parseFloat(document.getElementById("fixedCost").value),
+                        buildCost: document.getElementById("buildCostToggle").checked ?
+                            parseFloat(document.getElementById("buildDays").value) * parseFloat(document.getElementById("costPerDay").value) :
+                            parseFloat(document.getElementById("totalBuildCost").value),
+                        weeksPerMonth: parseFloat(document.getElementById("weeksPerMonth").value) || 4.3,
+                        numberOfMonths: parseFloat(document.getElementById("numberOfMonths").value) || 12
+                    };
 
-                    let statusHTML = '';
-                    const isOnTrack = metrics.minUsersNeeded <= inputs.numberOfUsers;
+                    // Calculate key metrics
+                    const metrics = calculateBreakEvenMetrics(inputs);
 
-                    statusHTML = `
-                        <div class="alert ${isOnTrack ? 'alert-success' : 'alert-warning'} mb-4">
-                            <h6 class="alert-heading">
-                                <i class="bi ${isOnTrack ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i>
-                                ${isOnTrack ? 'On Track to Break Even' : 'Action Needed'}
-                            </h6>
-                            <p class="mb-0">
-                                ${isOnTrack ?
-                                    `You'll reach break-even in approximately ${metrics.breakEvenMonths} months at current usage rates.` :
-                                    `You need ${metrics.minUsersNeeded - inputs.numberOfUsers} more active users to reach break-even.`
-                                }
-                            </p>
-                        </div>
-                    `;
+                    // Update the UI with new calculations
+                    updateBreakEvenUI(metrics, inputs);
 
-                    statusContainer.innerHTML = statusHTML;
+                    // Generate and update recommendations
+                    updateBreakEvenRecommendations(metrics, inputs);
+
+                } catch (error) {
+                    console.error("Error in updateBreakEvenAnalysis:", error);
                 }
+            }
 
-                function updateBreakEvenRecommendations(metrics, inputs) {
-                    const container = document.getElementById("breakEvenRecommendations");
-                    if (!container) return;
+            function calculateBreakEvenMetrics(inputs) {
+                // Monthly value generated per user
+                const monthlyValuePerUser = inputs.timeSaved * inputs.valuePerHour * inputs.workingDays;
 
-                    const recommendations = generateBreakEvenRecommendations(metrics, inputs);
-                    container.innerHTML = recommendations;
-                }
+                // Monthly costs per user
+                const monthlyQueriesPerUser = inputs.queriesPerDay * inputs.workingDays;
+                const monthlyVariableCost = monthlyQueriesPerUser * inputs.costPerQuery;
+                const monthlyFixedCostPerUser = inputs.fixedCost / inputs.numberOfUsers;
 
-                function generateBreakEvenRecommendations(metrics, inputs) {
-                    const isUserShortfall = metrics.minUsersNeeded > inputs.numberOfUsers;
-                    const isQueryShortfall = metrics.minQueriesPerUser > metrics.queriesPerMonth;
+                // Total monthly cost per user
+                const totalMonthlyCostPerUser = monthlyVariableCost + monthlyFixedCostPerUser;
 
-                    return `
-                        <div class="col-md-4">
-                            <div class="card h-100 ${isUserShortfall ? 'border-warning' : 'border-success'}">
-                                <div class="card-body">
-                                    <h6 class="card-title ${isUserShortfall ? 'text-warning' : 'text-success'}">
-                                        <i class="bi ${isUserShortfall ? 'bi-people-fill' : 'bi-check-circle'}"></i>
-                                        User Adoption
-                                    </h6>
-                                    <p class="card-text small">
-                                        ${isUserShortfall ?
-                                            `Need ${metrics.minUsersNeeded - inputs.numberOfUsers} more users for break-even. Focus on user onboarding.` :
-                                            `Current user base of ${inputs.numberOfUsers} exceeds break-even requirement of ${metrics.minUsersNeeded}.`
-                                        }
-                                    </p>
-                                </div>
+                // Net value per user per month
+                const netValuePerUser = monthlyValuePerUser - totalMonthlyCostPerUser;
+
+                // Calculate minimum users needed for break-even
+                const minUsersForBreakEven = Math.ceil(inputs.fixedCost / (netValuePerUser - monthlyVariableCost));
+
+                // Calculate break-even period
+                const monthlyNetProfit = (netValuePerUser * inputs.numberOfUsers) - inputs.fixedCost;
+                const breakEvenMonths = monthlyNetProfit > 0 ? Math.ceil(inputs.buildCost / monthlyNetProfit) : Infinity;
+
+                return {
+                    minUsersNeeded: minUsersForBreakEven,
+                    breakEvenMonths: breakEvenMonths,
+                    monthlyProfit: monthlyNetProfit,
+                    valuePerUser: monthlyValuePerUser,
+                    costPerUser: totalMonthlyCostPerUser,
+                    queriesPerMonth: monthlyQueriesPerUser,
+                    minQueriesPerUser: Math.ceil(monthlyQueriesPerUser * (minUsersForBreakEven / inputs.numberOfUsers))
+                };
+            }
+
+            function updateBreakEvenUI(metrics, inputs) {
+                // Helper function for safe element updates
+                const updateElement = (id, value, formatter = (x) => x) => {
+                    const element = document.getElementById(id);
+                    if (element) element.textContent = formatter(value);
+                };
+
+                // Update monthly requirements
+                updateElement("usersNeededPerMonth", metrics.minUsersNeeded);
+                updateElement("queriesNeededPerMonth", metrics.minQueriesPerUser * metrics.minUsersNeeded);
+                updateElement("queriesPerUserMonth", metrics.minQueriesPerUser);
+
+                // Update daily distribution
+                updateElement("usersNeededPerDay", Math.ceil(metrics.minUsersNeeded / inputs.workingDays));
+                updateElement("queriesNeededPerDay", metrics.dailyQueriesNeeded);
+
+                // Update progress bars
+                const userProgress = (metrics.minUsersNeeded / inputs.numberOfUsers) * 100;
+                const queryProgress = (metrics.minQueriesPerUser / metrics.queriesPerMonth) * 100;
+
+                const userProgressBar = document.getElementById("userProgressBar");
+                const queryProgressBar = document.getElementById("queryProgressBar");
+
+                if (userProgressBar) userProgressBar.style.width = `${Math.min(userProgress, 100)}%`;
+                if (queryProgressBar) queryProgressBar.style.width = `${Math.min(queryProgress, 100)}%`;
+
+                // Update status indicators
+                updateBreakEvenStatus(metrics, inputs);
+            }
+
+            function updateBreakEvenStatus(metrics, inputs) {
+                const statusContainer = document.getElementById("breakEvenStatus");
+                if (!statusContainer) return;
+
+                let statusHTML = '';
+                const isOnTrack = metrics.minUsersNeeded <= inputs.numberOfUsers;
+
+                statusHTML = `
+                    <div class="alert ${isOnTrack ? 'alert-success' : 'alert-warning'} mb-4">
+                        <h6 class="alert-heading">
+                            <i class="bi ${isOnTrack ? 'bi-check-circle' : 'bi-exclamation-triangle'}"></i>
+                            ${isOnTrack ? 'On Track to Break Even' : 'Action Needed'}
+                        </h6>
+                        <p class="mb-0">
+                            ${isOnTrack ?
+                                `You'll reach break-even in approximately ${metrics.breakEvenMonths} months at current usage rates.` :
+                                `You need ${metrics.minUsersNeeded - inputs.numberOfUsers} more active users to reach break-even.`
+                            }
+                        </p>
+                    </div>
+                `;
+
+                statusContainer.innerHTML = statusHTML;
+            }
+
+            function updateBreakEvenRecommendations(metrics, inputs) {
+                const container = document.getElementById("breakEvenRecommendations");
+                if (!container) return;
+
+                const recommendations = generateBreakEvenRecommendations(metrics, inputs);
+                container.innerHTML = recommendations;
+            }
+
+            function generateBreakEvenRecommendations(metrics, inputs) {
+                const isUserShortfall = metrics.minUsersNeeded > inputs.numberOfUsers;
+                const isQueryShortfall = metrics.minQueriesPerUser > metrics.queriesPerMonth;
+
+                return `
+                    <div class="col-md-4">
+                        <div class="card h-100 ${isUserShortfall ? 'border-warning' : 'border-success'}">
+                            <div class="card-body">
+                                <h6 class="card-title ${isUserShortfall ? 'text-warning' : 'text-success'}">
+                                    <i class="bi ${isUserShortfall ? 'bi-people-fill' : 'bi-check-circle'}"></i>
+                                    User Adoption
+                                </h6>
+                                <p class="card-text small">
+                                    ${isUserShortfall ?
+                                        `Need ${metrics.minUsersNeeded - inputs.numberOfUsers} more users for break-even. Focus on user onboarding.` :
+                                        `Current user base of ${inputs.numberOfUsers} exceeds break-even requirement of ${metrics.minUsersNeeded}.`
+                                    }
+                                </p>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-title text-primary">
-                                        <i class="bi bi-graph-up"></i>
-                                        Usage Optimization
-                                    </h6>
-                                    <p class="card-text small">
-                                        Optimal usage: ${metrics.minQueriesPerUser} queries/user/month
-                                        <br>
-                                        Current: ${metrics.queriesPerMonth} queries/user/month
-                                        <br>
-                                        <small class="text-muted">
-                                            ${Math.ceil(metrics.minQueriesPerUser/inputs.workingDays)} queries per working day
-                                        </small>
-                                    </p>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title text-primary">
+                                    <i class="bi bi-graph-up"></i>
+                                    Usage Optimization
+                                </h6>
+                                <p class="card-text small">
+                                    Optimal usage: ${metrics.minQueriesPerUser} queries/user/month
+                                    <br>
+                                    Current: ${metrics.queriesPerMonth} queries/user/month
+                                    <br>
+                                    <small class="text-muted">
+                                        ${Math.ceil(metrics.minQueriesPerUser/inputs.workingDays)} queries per working day
+                                    </small>
+                                </p>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col-md-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-title text-info">
-                                        <i class="bi bi-calendar-check"></i>
-                                        Break-Even Timeline
-                                    </h6>
-                                    <p class="card-text small">
-                                        Expected break-even in ${metrics.breakEvenMonths} months
-                                        <br>
-                                        Monthly profit: €${metrics.monthlyProfit.toFixed(2)}
-                                        <br>
-                                        <small class="text-muted">
-                                            Based on current usage patterns
-                                        </small>
-                                    </p>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title text-info">
+                                    <i class="bi bi-calendar-check"></i>
+                                    Break-Even Timeline
+                                </h6>
+                                <p class="card-text small">
+                                    Expected break-even in ${metrics.breakEvenMonths} months
+                                    <br>
+                                    Monthly profit: €${metrics.monthlyProfit.toFixed(2)}
+                                    <br>
+                                    <small class="text-muted">
+                                        Based on current usage patterns
+                                    </small>
+                                </p>
                             </div>
                         </div>
-                    `;
-                }
+                    </div>
+                `;
+            }
 
             // Add this function to fix the error
             function updateProgressBar(id, value, maxValue) {
@@ -2395,6 +2510,40 @@
                         progressBar.className = 'progress-bar bg-danger';
                     }
                 }
+            }
+
+            function updateActiveUsersSection(metrics, inputs) {
+                // Helper function for safe element updates
+                const updateElement = (id, value, suffix = '') => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = `${value}${suffix}`;
+                    }
+                };
+
+                // Update monthly metrics
+                updateElement('usersNeededPerMonth', metrics.minUsersNeeded);
+                updateElement('queriesNeededPerMonth', metrics.minQueriesPerUser * metrics.minUsersNeeded);
+
+                // Update weekly metrics
+                const weeklyUsers = Math.ceil(metrics.minUsersNeeded / 4.3);
+                const weeklyQueries = Math.ceil((metrics.minQueriesPerUser * metrics.minUsersNeeded) / 4.3);
+                updateElement('usersNeededPerWeek', weeklyUsers);
+                updateElement('queriesNeededPerWeek', weeklyQueries);
+
+                // Update daily metrics
+                const dailyUsers = Math.ceil(metrics.minUsersNeeded / inputs.workingDays);
+                const dailyQueries = Math.ceil((metrics.minQueriesPerUser * metrics.minUsersNeeded) / inputs.workingDays);
+                updateElement('usersNeededPerDay', dailyUsers);
+                updateElement('queriesNeededPerDay', dailyQueries);
+
+                // Update progress bars
+                updateProgressBar('monthlyUsersProgress', metrics.minUsersNeeded, inputs.numberOfUsers);
+                updateProgressBar('monthlyQueriesProgress', metrics.minQueriesPerUser * metrics.minUsersNeeded, inputs.queriesPerDay * inputs.workingDays * inputs.numberOfUsers);
+                updateProgressBar('weeklyUsersProgress', weeklyUsers, Math.ceil(inputs.numberOfUsers / 4.3));
+                updateProgressBar('weeklyQueriesProgress', weeklyQueries, Math.ceil((inputs.queriesPerDay * inputs.workingDays * inputs.numberOfUsers) / 4.3));
+                updateProgressBar('dailyUsersProgress', dailyUsers, Math.ceil(inputs.numberOfUsers / inputs.workingDays));
+                updateProgressBar('dailyQueriesProgress', dailyQueries, inputs.queriesPerDay * inputs.numberOfUsers);
             }
         </script>
     </body>
