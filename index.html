@@ -624,6 +624,215 @@
                 font-weight: 600;
                 color: #007bff;
             }
+
+            /* Card improvements */
+            .card {
+                border: none;
+                border-radius: 12px;
+                transition: box-shadow 0.2s;
+            }
+
+            .card:hover {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+
+            /* Badge improvements */
+            .badge {
+                font-weight: 500;
+                padding: 0.5em 0.75em;
+                border-radius: 6px;
+            }
+
+            .bg-blue-100 {
+                background-color: #ebf8ff;
+            }
+
+            .text-blue-800 {
+                color: #2c5282;
+            }
+
+            /* Input group improvements */
+            .input-group-text {
+                background-color: #f8fafc;
+                border-color: #e2e8f0;
+                color: #4a5568;
+            }
+
+            .input-group-text i {
+                color: #3182ce;
+            }
+
+            /* Tooltip improvements */
+            .tooltip {
+                font-size: 0.875rem;
+            }
+
+            .tooltip-inner {
+                background-color: #2d3748;
+                padding: 0.5rem 1rem;
+                border-radius: 6px;
+            }
+
+            /* Improve icons in headers */
+            .header-icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 28px;
+                height: 28px;
+                background: #ebf8ff;
+                border-radius: 6px;
+                margin-right: 0.5rem;
+            }
+
+            .header-icon i {
+                font-size: 1rem;
+                color: #3182ce;
+            }
+
+            .section-header {
+                font-size: 1.1rem;
+                font-weight: 500;
+                color: #4a5568;
+                padding-bottom: 0.75rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid #e2e8f0;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .section-header i {
+                font-size: 1.2rem;
+                color: #3182ce;
+            }
+
+            .section-header .badge {
+                font-weight: 500;
+                font-size: 0.75rem;
+                padding: 0.35em 0.65em;
+            }
+
+            .section-header .info-tooltip {
+                color: #718096;
+                cursor: help;
+                transition: color 0.2s;
+            }
+
+            .section-header .info-tooltip:hover {
+                color: #4a5568;
+            }
+
+            .accordion-button {
+                font-weight: 500;
+                color: #4a5568;
+                background-color: #f8fafc;
+                padding: 1rem 1.25rem;
+            }
+
+            .accordion-button:not(.collapsed) {
+                color: #2b6cb0;
+                background-color: #ebf8ff;
+            }
+
+            .accordion-button::after {
+                background-size: 1.2rem;
+                transition: transform 0.2s ease-in-out;
+            }
+
+            .accordion-button i {
+                font-size: 1.1rem;
+                margin-right: 0.75rem;
+                color: inherit;
+            }
+
+            .chart-container {
+                position: relative;
+                background: #fff;
+                border-radius: 8px;
+                padding: 1rem;
+            }
+
+            .graph-controls {
+                display: flex;
+                align-items: center;
+            }
+
+            .graph-controls .btn-group {
+                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            }
+
+            .graph-controls .btn {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                font-size: 0.875rem;
+            }
+
+            .graph-legend {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                padding: 0.5rem;
+                background: #f8fafc;
+                border-radius: 6px;
+            }
+
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .legend-color {
+                width: 12px;
+                height: 12px;
+                border-radius: 3px;
+            }
+
+            .legend-value {
+                font-weight: 600;
+                color: #2d3748;
+            }
+
+            .break-even-indicator {
+                background: #f8fafc;
+                padding: 0.75rem;
+                border-radius: 6px;
+            }
+
+            .break-even-indicator .progress {
+                background-color: #e2e8f0;
+            }
+
+            .break-even-indicator .progress-bar {
+                transition: width 0.6s ease;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .graph-controls {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+
+                .graph-legend {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.5rem;
+                }
+            }
+
+            /* Chart tooltip customization */
+            .chartjs-tooltip {
+                background: rgba(45, 55, 72, 0.9);
+                border-radius: 6px;
+                padding: 0.5rem 0.75rem;
+                color: white;
+                font-size: 0.875rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
         </style>
     </head>
     <body>
@@ -664,10 +873,11 @@
                 id="calculator"
                 role="tabpanel"
             >
+                <!-- Main container layout -->
                 <div class="row mt-4">
-                    <!-- Input Section -->
+                    <!-- Input Sidebar -->
                     <div class="col-md-4">
-                        <div class="card mb-4">
+                        <div class="card shadow-sm">
                             <div class="card-body">
                                 <h3>
                                     <i class="bi bi-sliders"></i> Input Parameters
@@ -676,8 +886,11 @@
                                 <!-- Build Cost Section -->
                                 <div class="parameter-section mb-4">
                                     <h5 class="section-header">
-                                        <i class="bi bi-tools"></i> Build Costs
-                                        <span class="badge bg-primary ms-2" data-bs-toggle="tooltip" title="One-time costs for development and implementation">
+                                        <span class="header-icon">
+                                            <i class="bi bi-tools"></i>
+                                        </span>
+                                        Build Costs
+                                        <span class="badge bg-blue-100 text-blue-800 ms-2" data-bs-toggle="tooltip" title="One-time costs for development and implementation">
                                             <i class="bi bi-info-circle"></i>
                                         </span>
                                     </h5>
@@ -940,20 +1153,95 @@
                         </div>
                     </div>
 
-                    <!-- Result Section -->
+                    <!-- Graph and Results Section -->
                     <div class="col-md-8">
-                        <!-- Accordion for Results -->
-                        <div class="accordion mb-4" id="resultsAccordion">
+                        <!-- Improved Graph Card -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <span class="header-icon">
+                                            <i class="bi bi-graph-up-arrow"></i>
+                                        </span>
+                                        <h4 class="card-title mb-0">ROI Projection</h4>
+                                    </div>
+                                    <div class="graph-controls">
+                                        <div class="btn-group">
+                                            <button class="btn btn-outline-primary btn-sm active" id="monthlyView">
+                                                <i class="bi bi-calendar-month"></i> Monthly
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" id="quarterlyView">
+                                                <i class="bi bi-calendar3"></i> Quarterly
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" id="yearlyView">
+                                                <i class="bi bi-calendar"></i> Yearly
+                                            </button>
+                                        </div>
+                                        <div class="btn-group ms-2">
+                                            <button class="btn btn-outline-secondary btn-sm" id="toggleCosts">
+                                                <i class="bi bi-cash"></i> Costs
+                                            </button>
+                                            <button class="btn btn-outline-secondary btn-sm" id="toggleBenefits">
+                                                <i class="bi bi-graph-up"></i> Benefits
+                                            </button>
+                                            <button class="btn btn-outline-secondary btn-sm" id="toggleROI">
+                                                <i class="bi bi-pie-chart"></i> ROI
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Graph Legend -->
+                                <div class="graph-legend mb-3">
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: rgba(75, 192, 192, 0.2)"></span>
+                                        <span>Net ROI</span>
+                                        <span class="legend-value" id="netRoiValue">€0</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: rgba(255, 99, 132, 0.2)"></span>
+                                        <span>Total Costs</span>
+                                        <span class="legend-value" id="totalCostsValue">€0</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-color" style="background: rgba(54, 162, 235, 0.2)"></span>
+                                        <span>Total Benefits</span>
+                                        <span class="legend-value" id="totalBenefitsValue">€0</span>
+                                    </div>
+                                </div>
+
+                                <!-- Graph Container -->
+                                <div class="chart-container" style="height: 400px;">
+                                    <canvas id="roiChart"></canvas>
+                                </div>
+
+                                <!-- Break-even Point Indicator -->
+                                <div class="break-even-indicator mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-muted">Break-even Point:</span>
+                                        <span class="badge bg-success" id="breakEvenPoint">Month 0</span>
+                                    </div>
+                                    <div class="progress mt-2" style="height: 6px;">
+                                        <div class="progress-bar bg-success" id="breakEvenProgress" role="progressbar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rest of the results sections -->
+                        <div class="accordion" id="resultsAccordion">
                             <!-- Summary Section -->
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingSummary">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseSummary" aria-expanded="true" aria-controls="collapseSummary">
-                                        <i class="bi bi-clipboard-data"></i> ROI Summary Dashboard
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#summarySection">
+                                        <span class="header-icon">
+                                            <i class="bi bi-clipboard-data"></i>
+                                        </span>
+                                        ROI Summary Dashboard
                                     </button>
                                 </h2>
-                                <div id="collapseSummary" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingSummary" data-bs-parent="#resultsAccordion">
+                                <div id="summarySection" class="accordion-collapse collapse show"
+                                    aria-labelledby="summarySection" data-bs-parent="#resultsAccordion">
                                     <div class="accordion-body">
                                         <!-- Status Overview Alert -->
                                         <div class="alert alert-info mb-4">
@@ -1535,18 +1823,6 @@
                                             <!-- Status will be dynamically inserted here -->
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Charts -->
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <h3>
-                                    <i class="bi bi-graph-up"></i> ROI Over Time
-                                </h3>
-                                <div class="chart-container">
-                                    <canvas id="roiChart"></canvas>
                                 </div>
                             </div>
                         </div>
